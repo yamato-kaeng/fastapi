@@ -13,24 +13,23 @@ app = FastAPI()
 
 def result(res):
     return {"result":res}
-
+# <---------------------------------------------------------> # 
 @app.get("/")
 async def main():
     return 'Hello World'
-
+# <---------------------------------------------------------> #    
 @app.get("/test")
 async def test():
     return 'Test Tutorial'
-
+# <---------------------------------------------------------> #  
 @app.get("/add")
 async def add(a: int = 0, b: int = 0):
     return a+b
-
+# <---------------------------------------------------------> #  
 @app.get("/mul")
 async def mul(a: int = 0, b: int = 0):
     return a*b
-
-
+# <---------------------------------------------------------> #  
 def tonumlist(li):
     ls = li.split(',')
     for i in range(len(ls)):
@@ -42,38 +41,38 @@ async def asc(li):
     ls = tonumlist(li)
     ls.sort()
     return ls
-
+# <---------------------------------------------------------> #  
 @app.get("/desc")
 async def desc(li):
     ls = tonumlist(li)
     ls.sort(reverse=True)
     return ls
-
+# <---------------------------------------------------------> #  
 @app.get("/sum")
 async def sum(li):
     ls = tonumlist(li)
     return np.sum(np.array(ls))
-
+# <---------------------------------------------------------> #  
 @app.get("/avg")
 async def avg(li):
     ls = tonumlist(li)
     return np.average(ls)
-
+# <---------------------------------------------------------> #  
 @app.get("/mean")
 async def mean(li):
     ls = tonumlist(li)
     return np.mean(ls)
-
+# <---------------------------------------------------------> #  
 @app.get("/max")
 async def max(li):
     ls = tonumlist(li)
     return np.amax(ls)
-
+# <---------------------------------------------------------> #  
 @app.get("/min")
 async def min(li):
     ls = tonumlist(li)
     return np.amin(ls)
-
+# <---------------------------------------------------------> #  
 @app.get("/validation-ctzid")
 async def validation_ctzid(text):
     if(len(text) != 13):
@@ -93,7 +92,7 @@ async def validation_ctzid(text):
         return True
     else:
         return False
-
+# <---------------------------------------------------------> #  
 @app.get("/validation-email")
 async def validation_email(text):  
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
@@ -101,8 +100,7 @@ async def validation_email(text):
         return True
     else:
         return False
-    
-    
+# <---------------------------------------------------------> #  
 @app.get("/google-search",response_class=PlainTextResponse)
 def google_search(text):
     
@@ -131,7 +129,67 @@ def google_search(text):
             break
     
     return(result)
-
+# <---------------------------------------------------------> #  
+@app.get("/google-search",response_class=PlainTextResponse)
+def google_search(text):
+    
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:81.0) Gecko/20100101 Firefox/81.0',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'gzip, deflate',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1'
+    }
+    url = 'https://www.google.com/search?q=' + str(text)
+    res = requests.get(url, headers = headers)
+    soup = BeautifulSoup(res.content, 'html.parser')
+    
+    t = soup.findAll('div', {'class':"r"})
+    i = 0
+    result = ''
+    for a in t:
+        href = a.a['href']
+        head = a.h3.text
+        result = result + head + '<br>' + href + '<br><br>'
+        i += 1
+        if(i >= 5):
+            break
+    
+    return(result)
+# <---------------------------------------------------------> #  
+@app.get("/google-search-youtube",response_class=PlainTextResponse)
+def google_search_youtube(text):
+    
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:81.0) Gecko/20100101 Firefox/81.0',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Accept-Encoding': 'gzip, deflate',
+        'DNT': '1',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1'
+    }
+    url = 'https://www.google.com/search?q=' + str(text) + '&tbm=vid&hl=en-US'
+    res = requests.get(url, headers = headers)
+    soup = BeautifulSoup(res.content, 'html.parser')
+    
+    t = soup.findAll('a')
+    listcheck = list()
+    result = ''
+    for a in t:
+        try:
+            href = a['href']
+            head = a.text.strip()
+            if(href not in listcheck):
+                listcheck.append(href)
+                result = result + head + '<br>' + href + '<br><br>'
+            if(len(listcheck) == 5):
+                return result
+        except KeyError as e:
+            continue
+# <---------------------------------------------------------> #  
 @app.get("/ark-servers", response_class = PlainTextResponse)
 def ark_server():
     
@@ -148,7 +206,7 @@ def ark_server():
     text = 'Active players : ' + str(len(f)) + '<br><br>' + text
     
     return(text)
-
+# <---------------------------------------------------------> #  
 @app.get("/jobsDB-test", response_class = PlainTextResponse)
 def jobs_Test():
     
@@ -157,7 +215,7 @@ def jobs_Test():
     f = soup.find('h1', {'class':"FYwKg C6ZIU_3 _3nVJR_3 _642YY_3 _27Shq_3 _2k6I7_3"}).text
 
     return(f)
-
+# <---------------------------------------------------------> #  
 @app.get("/math-X", response_class = PlainTextResponse)
 def math_X(text):
     
@@ -167,7 +225,7 @@ def math_X(text):
         sumout *= int(a)
 
     return(str(sumout))
-
+# <---------------------------------------------------------> #  
 @app.get("/math-ascii", response_class = PlainTextResponse)
 def math_ascii(text):
     
@@ -182,6 +240,6 @@ def math_ascii(text):
         count += 1
 
     return(textout)
-
+# <---------------------------------------------------------> #  
 if __name__ == '__main__':
    uvicorn.run(app, host="0.0.0.0", port=80, debug=True) 
