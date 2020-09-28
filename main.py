@@ -164,9 +164,24 @@ def math_X(text):
     listobj = text.split(',')
     sumout = 1
     for a in listobj:
-        sumout *= a
+        sumout *= int(a)
 
     return(str(sumout))
+
+@app.get("/math-ascii", response_class = PlainTextResponse)
+def math_ascii(text):
+    
+    textout = ''
+    count = 1
+    for a in text:
+        t = hex(ord(a))
+        count += 1
+        if(count == len(text)):
+            textout += t
+        else:
+            textout += t + ','
+
+    return(textout)
 
 if __name__ == '__main__':
    uvicorn.run(app, host="0.0.0.0", port=80, debug=True) 
