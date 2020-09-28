@@ -104,36 +104,7 @@ async def validation_email(text):
 # <---------------------------------------------------------> #  
 @app.get("/google-search",response_class=PlainTextResponse)
 def google_search(text):
-    
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:81.0) Gecko/20100101 Firefox/81.0',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.5',
-        'Accept-Encoding': 'gzip, deflate',
-        'DNT': '1',
-        'Connection': 'keep-alive',
-        'Upgrade-Insecure-Requests': '1'
-    }
-    url = 'https://www.google.com/search?q=' + str(text)
-    res = requests.get(url, headers = headers)
-    soup = BeautifulSoup(res.content, 'html.parser')
-    
-    t = soup.findAll('div', {'class':"r"})
-    i = 0
-    result = ''
-    for a in t:
-        href = a.a['href']
-        head = a.h3.text
-        result = result + head + '<br>' + href + '<br><br>'
-        i += 1
-        if(i >= 5):
-            break
-    
-    return(result)
-# <---------------------------------------------------------> #  
-@app.get("/google-search",response_class=PlainTextResponse)
-def google_search(text):
-    
+    # ค้นหา cat ==> head + url
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:81.0) Gecko/20100101 Firefox/81.0',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -196,7 +167,7 @@ def google_search_youtube(text):
 # <---------------------------------------------------------> #  
 @app.get("/ark-servers", response_class = PlainTextResponse)
 def ark_server():
-    
+    # Booo! ==> GetServers ARK !!
     res = requests.get('https://www.battlemetrics.com/servers/ark/6663725')
     soup = BeautifulSoup(res.content, 'html.parser')
     f = soup.find('div', {'class':"col-md-8"}).findAll('a')
@@ -222,7 +193,7 @@ def jobs_Test():
 # <---------------------------------------------------------> #  
 @app.get("/math-X", response_class = PlainTextResponse)
 def math_X(text):
-    
+    # 1,2,3 ==> 6
     listobj = text.split(',')
     sumout = 1
     for a in listobj:
@@ -232,7 +203,7 @@ def math_X(text):
 # <---------------------------------------------------------> #  
 @app.get("/math-ascii", response_class = PlainTextResponse)
 def math_ascii(text):
-    
+    # abc10 ==> '0x61,0x62,0x63,0x31,0x30'
     textout = ''
     count = 1
     for a in text:
