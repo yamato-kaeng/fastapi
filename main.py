@@ -6,6 +6,7 @@ import uvicorn
 import numpy as np
 import re
 import requests
+import urllib
 from bs4 import BeautifulSoup
 from fastapi.responses import PlainTextResponse
 
@@ -142,7 +143,7 @@ def google_search(text):
         'Connection': 'keep-alive',
         'Upgrade-Insecure-Requests': '1'
     }
-    url = 'https://www.google.com/search?q=' + str(text)
+    url = 'https://www.google.com/search?q=' + urllib.parse.quote(str(text))
     res = requests.get(url, headers = headers)
     soup = BeautifulSoup(res.content, 'html.parser')
     
@@ -171,7 +172,8 @@ def google_search_youtube(text):
         'Connection': 'keep-alive',
         'Upgrade-Insecure-Requests': '1'
     }
-    url = 'https://www.google.com/search?q=' + str(text) + '&tbm=vid&hl=en-US'
+    #url = 'https://www.google.com/search?q=' + str(text) + '&tbm=vid&hl=en-US' ----> แบบนี้อาจจะแย่มากไปนะจ๊ะ
+    url = 'https://www.google.com/search?q=site:youtube.com ' + urllib.parse.quote(str(text))
     res = requests.get(url, headers = headers)
     soup = BeautifulSoup(res.content, 'html.parser')
     
@@ -180,7 +182,7 @@ def google_search_youtube(text):
     result = ''
     for a in t:
         try:
-            if('www.youtube.com/watch?=' in a['href']):
+            if('https://www.youtube.com/watch?' in a['href']):
                 href = a['href']
                 head = a.text.strip()
                 if(href not in listcheck):
