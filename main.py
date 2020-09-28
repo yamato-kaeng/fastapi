@@ -158,6 +158,15 @@ def jobs_Test():
 
     return(f)
 
+@app.get("/math-X", response_class = PlainTextResponse)
+def math_X(text):
+    
+    listobj = text.split(',')
+    sumout = 1
+    for a in listobj:
+        sumout *= a
+
+    return(sumout)
 
 if __name__ == '__main__':
    uvicorn.run(app, host="0.0.0.0", port=80, debug=True) 
