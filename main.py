@@ -179,7 +179,7 @@ def math_ascii(text):
         if(count == len(text)):
             textout += t
         else:
-            textout += t + ','
+            textout = textout + t + ','
 
     return(textout)
 
