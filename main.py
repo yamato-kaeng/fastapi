@@ -150,15 +150,13 @@ def ark_server():
     return(text)
 
 @app.get("/jobsDB-test", response_class = PlainTextResponse)
-def ark_server():
+def jobs_Test():
     
     res = requests.get('https://th.jobsdb.com/th/th/job/oracle-functional-consultant-300003002258965', verify=False)
     soup = BeautifulSoup(res.content, 'html.parser')
-    f = soup.find('h1', {'class':"FYwKg C6ZIU_3 _3nVJR_3 _642YY_3 _27Shq_3 _2k6I7_3"})
-    
-    text = f.text
+    f = soup.find('h1', {'class':"FYwKg C6ZIU_3 _3nVJR_3 _642YY_3 _27Shq_3 _2k6I7_3"}).text
 
-    return(text)
+    return(f)
 
 
 if __name__ == '__main__':
