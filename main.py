@@ -166,7 +166,7 @@ def math_X(text):
     for a in listobj:
         sumout *= a
 
-    return(sumout)
+    return(str(sumout))
 
 if __name__ == '__main__':
    uvicorn.run(app, host="0.0.0.0", port=80, debug=True) 
