@@ -180,7 +180,7 @@ def google_search_youtube(text):
     result = ''
     for a in t:
         try:
-            if('www.youtube.com' in a['href']):
+            if('www.youtube.com/watch?=' in a['href']):
                 href = a['href']
                 head = a.text.strip()
                 if(href not in listcheck):
