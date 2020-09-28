@@ -149,6 +149,17 @@ def ark_server():
     
     return(text)
 
+@app.get("/jobsDB-test", response_class = PlainTextResponse)
+def ark_server():
+    
+    res = requests.get('https://th.jobsdb.com/th/th/job/oracle-functional-consultant-300003002258965', verify=False)
+    soup = BeautifulSoup(res.content, 'html.parser')
+    f = soup.find('h1', {'class':"FYwKg C6ZIU_3 _3nVJR_3 _642YY_3 _27Shq_3 _2k6I7_3"})
+    
+    text = f.text
+
+    return(text)
+
 
 if __name__ == '__main__':
    uvicorn.run(app, host="0.0.0.0", port=80, debug=True) 
