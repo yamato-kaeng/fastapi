@@ -180,13 +180,14 @@ def google_search_youtube(text):
     result = ''
     for a in t:
         try:
-            href = a['href']
-            head = a.text.strip()
-            if(href not in listcheck):
-                listcheck.append(href)
-                result = result + head + '<br>' + href + '<br><br>'
-            if(len(listcheck) == 5):
-                return result
+            if('www.youtube.com' in a['href']):
+                href = a['href']
+                head = a.text.strip()
+                if(href not in listcheck):
+                    listcheck.append(href)
+                    result = result + head + '<br>' + href + '<br><br>'
+                if(len(listcheck) == 5):
+                    return result
         except KeyError as e:
             continue
 # <---------------------------------------------------------> #  
