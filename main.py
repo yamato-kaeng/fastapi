@@ -175,11 +175,11 @@ def math_ascii(text):
     count = 1
     for a in text:
         t = hex(ord(a))
-        count += 1
-        if(count == len(text)):
+        if(count >= len(text)):
             textout += t
         else:
             textout = textout + t + ','
+        count += 1
 
     return(textout)
 
