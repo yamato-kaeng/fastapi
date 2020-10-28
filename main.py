@@ -6,6 +6,7 @@ import uvicorn
 import numpy as np
 import re
 import requests
+import datetime
 import urllib
 from bs4 import BeautifulSoup
 from fastapi.responses import PlainTextResponse
@@ -167,7 +168,6 @@ def google_search_youtube(text):
 # <---------------------------------------------------------> #  
 @app.get("/twitter-trends", response_class = PlainTextResponse)
 def twitter_trends():
-    import datetime
     # twitter_trends! ==> GetTrends twitter !!
     res = requests.get('https://twitter.com/i/trends')
     soup = BeautifulSoup(res.content, 'html.parser')
@@ -178,7 +178,7 @@ def twitter_trends():
         if(a.text not in listcheck):
             listcheck.append(a.text)
             stringout = stringout + a.text + '<br>'
-
+    print(stringout)
     text = 'Time : ' + str(datetime.datetime.now()) + '<br>' + 'Size : ' + str(len(listcheck)) + '<br>' + stringout
     
     return(text)
