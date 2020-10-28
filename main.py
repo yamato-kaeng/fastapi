@@ -6,11 +6,8 @@ import uvicorn
 import numpy as np
 import re
 import requests
-import datetime
 import urllib
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from fastapi.responses import PlainTextResponse
 
 app = FastAPI()
@@ -167,38 +164,6 @@ def google_search_youtube(text):
                     return result
         except KeyError as e:
             continue
-# <---------------------------------------------------------> #  
-@app.get("/twitter-trends", response_class = PlainTextResponse)
-def twitter_trends():
-    # twitter_trends! ==> GetTrends twitter !!
-    
-    option = webdriver.ChromeOptions()
-    option.add_argument('headless')
-    #driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver', options = option)
-    driver = webdriver.Chrome(options = option)
-    driver.get('https://twitter.com/i/trends')
-
-    time.sleep(2)
-    driver.find_element_by_tag_name('body').send_keys(Keys.END)
-    time.sleep(2)
-    driver.find_element_by_tag_name('body').send_keys(Keys.HOME)
-    time.sleep(2)
-    driver.find_element_by_tag_name('body').send_keys(Keys.END)
-
-    soup = BeautifulSoup(driver.page_source, 'html.parser')
-    listcheck = list()
-    stringout = ''
-
-    for a in soup.findAll('div', {'class' :'css-901oao r-hkyrab r-1qd0xha r-a023e6 r-b88u0q r-ad9z0x r-bcqeeo r-vmopo1 r-qvutc0'}):
-        if(a.text not in listcheck):
-            listcheck.append(a.text)
-            stringout = stringout + a.text + '<br>'
-
-    driver.quit()
-
-    text = 'Time : ' + str(datetime.datetime.now()) + '<br>' + 'Size : ' + str(len(listcheck)) + '<br>' + stringout
-    
-    return(text)
 # <---------------------------------------------------------> #  
 @app.get("/ark-servers", response_class = PlainTextResponse)
 def ark_server():
