@@ -8,3 +8,4 @@ sklearn==0.0
 pandas==1.1.0
 beautifulsoup4==4.9.1
 requests==2.24.0
+datetime

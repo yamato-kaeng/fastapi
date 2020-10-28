@@ -165,6 +165,23 @@ def google_search_youtube(text):
         except KeyError as e:
             continue
 # <---------------------------------------------------------> #  
+@app.get("/twitter-trends", response_class = PlainTextResponse)
+def twitter_trends():
+    import datetime
+    # twitter_trends! ==> GetTrends twitter !!
+    res = requests.get('https://twitter.com/i/trends')
+    soup = BeautifulSoup(res.content, 'html.parser')
+    
+    stringout = ''
+    lenitem = len(soup.findAll('div', {'class' :'css-901oao r-hkyrab r-1qd0xha r-a023e6 r-b88u0q r-ad9z0x r-bcqeeo r-vmopo1 r-qvutc0'}))
+    for a in soup.findAll('div', {'class' :'css-901oao r-hkyrab r-1qd0xha r-a023e6 r-b88u0q r-ad9z0x r-bcqeeo r-vmopo1 r-qvutc0'}):
+        if(a.text not in listcheck):
+            stringout = stringout + a.text + '<br>'
+
+    text = 'Time : ' + str(datetime.datetime.now()) + '<br>' + 'Size :' + str(lenitem) + '<br>' + stringout
+    
+    return(text)
+# <---------------------------------------------------------> #  
 @app.get("/ark-servers", response_class = PlainTextResponse)
 def ark_server():
     # Booo! ==> GetServers ARK !!
