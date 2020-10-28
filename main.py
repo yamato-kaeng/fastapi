@@ -173,12 +173,13 @@ def twitter_trends():
     soup = BeautifulSoup(res.content, 'html.parser')
     
     stringout = ''
-    lenitem = len(soup.findAll('div', {'class' :'css-901oao r-hkyrab r-1qd0xha r-a023e6 r-b88u0q r-ad9z0x r-bcqeeo r-vmopo1 r-qvutc0'}))
+    listcheck = list()
     for a in soup.findAll('div', {'class' :'css-901oao r-hkyrab r-1qd0xha r-a023e6 r-b88u0q r-ad9z0x r-bcqeeo r-vmopo1 r-qvutc0'}):
         if(a.text not in listcheck):
+            listcheck.append(a.text)
             stringout = stringout + a.text + '<br>'
 
-    text = 'Time : ' + str(datetime.datetime.now()) + '<br>' + 'Size :' + str(lenitem) + '<br>' + stringout
+    text = 'Time : ' + str(datetime.datetime.now()) + '<br>' + 'Size : ' + str(len(listcheck)) + '<br>' + stringout
     
     return(text)
 # <---------------------------------------------------------> #  
