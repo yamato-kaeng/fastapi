@@ -165,6 +165,46 @@ def google_search_youtube(text):
         except KeyError as e:
             continue
 # <---------------------------------------------------------> #  
+@app.get("/text-tokenize", response_class = PlainTextResponse)
+def text_tokenize(text):
+    tr1 = ''
+    tr2 = ''
+    textout = ''
+
+    if('"' in text or "'" in text):
+        tr1 = text.replace('"', '|')
+    if("'" in text):
+        tr2 = text.replace("'", '|')
+
+    if(len(tr1) != 0):
+        cc1 = checktext(tr1)
+        for a in cc1.split('|')[1::]:
+            textout = textout + '"' + a + '"' + '\n'
+
+    if(len(tr2) != 0):
+        cc2 = checktext(tr2)
+        for a in cc2.split('|')[1::]:
+            textout = textout + "'" + a + "'" + '\n'
+    
+    return textout.strip()
+
+def checktext(tr):
+    check = False
+    listc = list()
+    textout = ''
+    for a in tr:
+        if(a == "|" and len(listc) <= 1):
+            check = True
+            listc.append('OK')
+        if(a == "|" and len(listc) == 2):
+            listc.pop()
+            listc.pop()
+        if(len(listc) == 0):
+            check = False
+        if(check):
+            textout = textout + a
+    return textout
+# <---------------------------------------------------------> #  
 @app.get("/ark-servers", response_class = PlainTextResponse)
 def ark_server():
     # Booo! ==> GetServers ARK !!
