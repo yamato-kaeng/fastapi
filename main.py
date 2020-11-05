@@ -1,5 +1,5 @@
-#Author: Chatchawal Sangkeettrakarn
-#Date: September 20,2020.
+#Author: Yamato Kaeng
+#Date: 02/11/2020.
 
 from fastapi import FastAPI
 import uvicorn
