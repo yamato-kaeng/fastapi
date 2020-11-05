@@ -17,7 +17,7 @@ def result(res):
 # <---------------------------------------------------------> # 
 @app.get("/")
 async def main():
-    return 'Hello Wellcome To My World'
+    return 'Hello Kaeng'
 # <---------------------------------------------------------> #    
 @app.get("/test")
 async def test():
