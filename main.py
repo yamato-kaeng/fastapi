@@ -17,7 +17,7 @@ def result(res):
 # <---------------------------------------------------------> # 
 @app.get("/")
 async def main():
-    return 'Hello Wellcome To My World'
+    return 'Hello Wellcome To Yamato-Kaeng'
 # <---------------------------------------------------------> #    
 @app.get("/test")
 async def test():
@@ -257,4 +257,4 @@ def math_ascii(text):
     return(textout)
 # <---------------------------------------------------------> #  
 if __name__ == '__main__':
-   uvicorn.run(app, host="0.0.0.0", port=80, debug=True) 
+   uvicorn.run(app, host="0.0.0.0", port=8080, debug=True) 
