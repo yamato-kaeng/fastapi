@@ -205,10 +205,44 @@ def checktext(tr):
             textout = textout + a
     return textout
 # <---------------------------------------------------------> #  
-@app.get("/ark-servers", response_class = PlainTextResponse)
-def ark_server():
-    # Booo! ==> GetServers ARK !!
+@app.get("/ark-serversPVP", response_class = PlainTextResponse)
+def ark_serverPVP():
+    # Ragnarok! ==> GetServers ARK !!
     res = requests.get('https://www.battlemetrics.com/servers/ark/6663725')
+    soup = BeautifulSoup(res.content, 'html.parser')
+    f = soup.find('div', {'class':"col-md-8"}).findAll('a')
+    t = soup.find('div', {'class':"col-md-8"}).findAll('time')
+
+    text = ''
+    for a in range(0,len(f)):
+        print(f[a].text.strip(), t[a].text.strip())
+        text = text + f[a].text.strip() + ' >> ' + t[a].text.strip() + '<br>'
+    
+    text = 'Active players : ' + str(len(f)) + '<br><br>' + text
+    
+    return(text)
+# <---------------------------------------------------------> #  
+@app.get("/ark-serversPVEEx", response_class = PlainTextResponse)
+def ark_serverPVEEx():
+    # Extinction! ==> GetServers ARK !!
+    res = requests.get('https://www.battlemetrics.com/servers/ark/6663729')
+    soup = BeautifulSoup(res.content, 'html.parser')
+    f = soup.find('div', {'class':"col-md-8"}).findAll('a')
+    t = soup.find('div', {'class':"col-md-8"}).findAll('time')
+
+    text = ''
+    for a in range(0,len(f)):
+        print(f[a].text.strip(), t[a].text.strip())
+        text = text + f[a].text.strip() + ' >> ' + t[a].text.strip() + '<br>'
+    
+    text = 'Active players : ' + str(len(f)) + '<br><br>' + text
+    
+    return(text)
+# <---------------------------------------------------------> #  
+@app.get("/ark-serversPVEPm", response_class = PlainTextResponse)
+def ark_serverPVEPm():
+    # Primal! ==> GetServers ARK !!
+    res = requests.get('https://www.battlemetrics.com/servers/ark/8002813')
     soup = BeautifulSoup(res.content, 'html.parser')
     f = soup.find('div', {'class':"col-md-8"}).findAll('a')
     t = soup.find('div', {'class':"col-md-8"}).findAll('time')
