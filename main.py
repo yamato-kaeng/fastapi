@@ -169,21 +169,36 @@ def google_search_youtube(text):
 def text_tokenize(text):
     tr1 = ''
     tr2 = ''
+    tr3 = ''
+    tr4 = ''
     textout = ''
 
     if('"' in text or "'" in text):
         tr1 = text.replace('"', '|')
     if("'" in text):
         tr2 = text.replace("'", '|')
+    if('“' in text and '”' in text):
+        tr3 = text.replace('“', '|')
+        tr3 = tr3.replace('”', '|')
+    if("‘" in text and "’" in text):
+        tr4 = text.replace("‘", '|')
+        tr4 = tr4.replace("’", '|')
 
     if(len(tr1) != 0):
         cc1 = checktext(tr1)
         for a in cc1.split('|')[1::]:
             textout = textout + '"' + a + '"' + '\n'
-
+    if(len(tr3) != 0):
+        cc3 = checktext(tr3)
+        for a in cc3.split('|')[1::]:
+            textout = textout + '"' + a + '"' + '\n'
     if(len(tr2) != 0):
         cc2 = checktext(tr2)
         for a in cc2.split('|')[1::]:
+            textout = textout + "'" + a + "'" + '\n'
+    if(len(tr4) != 0):
+        cc4 = checktext(tr4)
+        for a in cc4.split('|')[1::]:
             textout = textout + "'" + a + "'" + '\n'
     
     return textout.strip()
