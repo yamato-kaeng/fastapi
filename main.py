@@ -27,7 +27,7 @@ async def test():
 @app.get("/bmi")
 def bmi(h :int=1, w:int=0):
     
-    h = h/100 ** 2
+    h = (h/100) ** 2
     bmi = w/h
     
     des = ""
