@@ -6,6 +6,7 @@ import uvicorn
 import numpy as np
 import re
 import requests
+import datetime
 import urllib
 from bs4 import BeautifulSoup
 from fastapi.responses import PlainTextResponse
@@ -38,7 +39,12 @@ def bmi(h :int=1, w:int=0):
     jsonout = {'bmi':f'{bmi:.2f}', 'des':des}
     
     return jsonout
-# <---------------------------------------------------------> #  
+# <---------------------------------------------------------> #
+@app.get("/datatime")
+def datetime(t):
+    dateout = datetime.datetime.now() + datetime.timedelta(days=int(t))
+    return dateout
+# <---------------------------------------------------------> #
 @app.get("/add")
 async def add(a: int = 0, b: int = 0):
     return a+b
