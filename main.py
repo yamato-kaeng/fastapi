@@ -42,7 +42,7 @@ def bmi(h :int=1, w:int=0):
 # <---------------------------------------------------------> #
 @app.get("/datatime")
 def datetime(t):
-    dateout = datetime.datetime.now() + datetime.timedelta(days=int(t))
+    dateout = str(datetime.datetime.now() + datetime.timedelta(days=int(t)))
     return dateout
 # <---------------------------------------------------------> #
 @app.get("/add")
