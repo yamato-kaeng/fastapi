@@ -35,10 +35,10 @@ def bmi(h :int=1, w:int=0):
     if(bmi < 18.5):
         des = "ต่ำกว่าเกณฑ์"
         
-    jsonout = {'bmi':bmi, 'des':des}
+    jsonout = {'bmi':f'{bmi:.2f}', 'des':des}
     
     return jsonout
-
+# <---------------------------------------------------------> #  
 @app.get("/add")
 async def add(a: int = 0, b: int = 0):
     return a+b
