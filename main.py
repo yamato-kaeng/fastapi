@@ -25,7 +25,7 @@ async def test():
     return 'Test Tutorial'
 # <---------------------------------------------------------> #  
 @app.get("/bmi")
-def bmi(h=int 1, w=int 0):
+def bmi(h :int 1, w:int 0):
     
     h = h/100 ** 2
     bmi = w/h
@@ -38,7 +38,7 @@ def bmi(h=int 1, w=int 0):
     jsonout = {'bmi':bmi, 'des':des}
     
     return jsonout
-    
+
 @app.get("/add")
 async def add(a: int = 0, b: int = 0):
     return a+b
