@@ -40,8 +40,8 @@ def bmi(h :int=1, w:int=0):
     
     return jsonout
 # <---------------------------------------------------------> #
-@app.get("/datatime")
-def datetime(t):
+@app.get("/datatimes")
+def datetimes(t:str='+1'):
     dateout = str(datetime.datetime.now() + datetime.timedelta(days=int(t)))
     return dateout
 # <---------------------------------------------------------> #
