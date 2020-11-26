@@ -12,6 +12,7 @@ from fastapi.responses import PlainTextResponse
 
 app = FastAPI()
 
+
 def result(res):
     return {"result":res}
 # <---------------------------------------------------------> # 
