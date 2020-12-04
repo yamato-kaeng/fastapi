@@ -343,6 +343,11 @@ def math_ascii(text):
         count += 1
 
     return(textout)
+# <---------------------------------------------------------> #
+@app.get("/ttest")
+def ttest():
+    
+    return {'name':'yama', 'age':2}
 # <---------------------------------------------------------> #  
 if __name__ == '__main__':
    uvicorn.run(app, host="0.0.0.0", port=8080, debug=True) 
