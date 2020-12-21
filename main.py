@@ -1,16 +1,17 @@
 #Author: Yamato Kaeng
 #Date: 02/11/2020.
 
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
-import numpy as np
 import re
+import urllib
+import pymongo
+import uvicorn
 import requests
 import datetime
-import urllib
+import numpy as np
+from fastapi import FastAPI
 from bs4 import BeautifulSoup
 from fastapi.responses import PlainTextResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
@@ -343,11 +344,42 @@ def math_ascii(text):
         count += 1
 
     return(textout)
-# <---------------------------------------------------------> #
-@app.get("/ttest")
-def ttest():
-    
-    return {'name':'yama', 'age':2}
 # <---------------------------------------------------------> #  
+@app.get("/readmongo")
+def readmongo():
+    client = pymongo.MongoClient()
+    db = client['test_pymongo']
+    listout = []
+    for a in db.test.find():
+        dict1 = {'id':str(a['_id']), 'name':a['name'], 'age':a['age']}
+        listout.append(dict1)
+
+    return listout
+# <---------------------------------------------------------> #  
+@app.get("/readmongoline", response_class=PlainTextResponse)
+def readmongoline():
+    client = pymongo.MongoClient()
+    db = client['news']
+    listlinetoday = list(db.linetoday.find())
+    print('sum >', len(listlinetoday))
+
+    i = 0
+    j = 0
+    stringout = ''
+    for a in listlinetoday[-50::]:
+        try:
+            if 'covid' in str(a['title']).strip() or 'covid' in str(a['description']).strip() or 'โควิด' in str(a['title']).strip() or 'โควิด' in str(a['description']).strip():
+                stringout += 'url > ' + str(a['url']) + '<br>' +'title > ' + str(a['title']) + '<br>' +'description > ' + str(a['description']) + '<br>' +'created_at > ' + str(a['created_at']) + '<br>' + '-'*50 + '<br>'
+                i += 1
+        except Exception as e:
+            j += 1
+            print(e,type(e))
+        
+    print('check >', i, j)
+    print(stringout.strip())
+
+    return stringout
+# <---------------------------------------------------------> #  
+
 if __name__ == '__main__':
    uvicorn.run(app, host="0.0.0.0", port=8080, debug=True) 
