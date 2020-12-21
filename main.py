@@ -366,7 +366,7 @@ def readmongoline():
     i = 0
     j = 0
     stringout = ''
-    for a in listlinetoday[-50::]:
+    for a in listlinetoday[-100::]:
         try:
             if 'covid' in str(a['title']).strip() or 'covid' in str(a['description']).strip() or 'โควิด' in str(a['title']).strip() or 'โควิด' in str(a['description']).strip():
                 stringout += 'url > ' + str(a['url']) + '<br>' +'title > ' + str(a['title']) + '<br>' +'description > ' + str(a['description']) + '<br>' +'created_at > ' + str(a['created_at']) + '<br>' + '-'*50 + '<br>'
