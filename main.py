@@ -358,7 +358,7 @@ def readmongo():
     return listout
 # <---------------------------------------------------------> #  
 @app.get("/news-covid")
-def news_covid(lim):
+def news_covid(lim:int=30):
     client = pymongo.MongoClient()
     db = client['news']
     listlinetoday = list(db.linetoday.find())
@@ -367,7 +367,7 @@ def news_covid(lim):
     j = 0
     #stringout = ''
     listout = []
-    for a in listlinetoday[-1000::]:
+    for a in listlinetoday[::-1]:
         try:
             if 'covid' in str(a['title']).strip() or 'covid' in str(a['description']).strip() or 'โควิด' in str(a['title']).strip() or 'โควิด' in str(a['description']).strip():
                 #stringout += 'url > ' + str(a['url']) + '<br>' +'title > ' + str(a['title']) + '<br>' +'description > ' + str(a['description']) + '<br>' +'created_at > ' + str(a['created_at']) + '<br>' + '-'*50 + '<br>'
@@ -382,12 +382,11 @@ def news_covid(lim):
             print(e,type(e))
         
     print('check-covid >', i, j)
-    listout = listout[::-1]
 
     return {'data':listout}
 # <---------------------------------------------------------> #
 @app.get("/news-all")
-def news_all(lim):
+def news_all(lim:int=30):
     client = pymongo.MongoClient()
     db = client['news']
     listlinetoday = list(db.linetoday.find())
@@ -395,7 +394,7 @@ def news_all(lim):
     i = 0
     j = 0
     listout = []
-    for a in listlinetoday[-1000::]:
+    for a in listlinetoday[::-1]:
         try:
             dict1 = {'url':str(a['url']), 'title':str(a['title']).strip(), 'description':str(a['description']).strip(), 'created_at':str(a['created_at'])}
             listout.append(dict1)
@@ -407,7 +406,6 @@ def news_all(lim):
             print(e,type(e))
         
     print('check-all >', i, j)
-    listout = listout[::-1]
 
     return {'data':listout}
 # <---------------------------------------------------------> #  
