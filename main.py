@@ -357,30 +357,56 @@ def readmongo():
 
     return listout
 # <---------------------------------------------------------> #  
-@app.get("/readmongoline")
-def readmongoline():
+@app.get("/news-covid")
+def news_covid(lim):
     client = pymongo.MongoClient()
     db = client['news']
     listlinetoday = list(db.linetoday.find())
     print('sum >', len(listlinetoday))
-
     i = 0
     j = 0
-    stringout = ''
+    #stringout = ''
     listout = []
-    for a in listlinetoday[-100::]:
+    for a in listlinetoday[-1000::]:
         try:
             if 'covid' in str(a['title']).strip() or 'covid' in str(a['description']).strip() or 'โควิด' in str(a['title']).strip() or 'โควิด' in str(a['description']).strip():
-                stringout += 'url > ' + str(a['url']) + '<br>' +'title > ' + str(a['title']) + '<br>' +'description > ' + str(a['description']) + '<br>' +'created_at > ' + str(a['created_at']) + '<br>' + '-'*50 + '<br>'
-                stringout += 'url > ' + str(a['url']) + '\n' +'title > ' + str(a['title']) + '\n' +'description > ' + str(a['description']) + '\n' +'created_at > ' + str(a['created_at']) + '\n' + '-'*50 + '\n'
+                #stringout += 'url > ' + str(a['url']) + '<br>' +'title > ' + str(a['title']) + '<br>' +'description > ' + str(a['description']) + '<br>' +'created_at > ' + str(a['created_at']) + '<br>' + '-'*50 + '<br>'
+                #stringout += 'url > ' + str(a['url']) + '\n' +'title > ' + str(a['title']) + '\n' +'description > ' + str(a['description']) + '\n' +'created_at > ' + str(a['created_at']) + '\n' + '-'*50 + '\n'
                 dict1 = {'url':str(a['url']), 'title':str(a['title']).strip(), 'description':str(a['description']).strip(), 'created_at':str(a['created_at'])}
                 listout.append(dict1)
                 i += 1
+            if len(listout) == int(lim):
+                break
         except Exception as e:
             j += 1
             print(e,type(e))
         
-    print('check >', i, j)
+    print('check-covid >', i, j)
+    listout = listout[::-1]
+
+    return {'data':listout}
+# <---------------------------------------------------------> #
+@app.get("/news-all")
+def news_all(lim):
+    client = pymongo.MongoClient()
+    db = client['news']
+    listlinetoday = list(db.linetoday.find())
+    print('sum >', len(listlinetoday))
+    i = 0
+    j = 0
+    listout = []
+    for a in listlinetoday[-1000::]:
+        try:
+            dict1 = {'url':str(a['url']), 'title':str(a['title']).strip(), 'description':str(a['description']).strip(), 'created_at':str(a['created_at'])}
+            listout.append(dict1)
+            i += 1
+            if len(listout) == int(lim):
+                break
+        except Exception as e:
+            j += 1
+            print(e,type(e))
+        
+    print('check-all >', i, j)
     listout = listout[::-1]
 
     return {'data':listout}
