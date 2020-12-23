@@ -14,6 +14,7 @@ from fastapi.responses import PlainTextResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+# root_path="/yamato" run on vm setpath
 
 origins = [
     #"http://localhost.tiangolo.com",
@@ -356,7 +357,7 @@ def readmongo():
 
     return listout
 # <---------------------------------------------------------> #  
-@app.get("/readmongoline", response_class=PlainTextResponse)
+@app.get("/readmongoline")
 def readmongoline():
     client = pymongo.MongoClient()
     db = client['news']
@@ -366,19 +367,23 @@ def readmongoline():
     i = 0
     j = 0
     stringout = ''
+    listout = []
     for a in listlinetoday[-100::]:
         try:
             if 'covid' in str(a['title']).strip() or 'covid' in str(a['description']).strip() or 'โควิด' in str(a['title']).strip() or 'โควิด' in str(a['description']).strip():
                 stringout += 'url > ' + str(a['url']) + '<br>' +'title > ' + str(a['title']) + '<br>' +'description > ' + str(a['description']) + '<br>' +'created_at > ' + str(a['created_at']) + '<br>' + '-'*50 + '<br>'
+                stringout += 'url > ' + str(a['url']) + '\n' +'title > ' + str(a['title']) + '\n' +'description > ' + str(a['description']) + '\n' +'created_at > ' + str(a['created_at']) + '\n' + '-'*50 + '\n'
+                dict1 = {'url':str(a['url']), 'title':str(a['title']).strip(), 'description':str(a['description']).strip(), 'created_at':str(a['created_at'])}
+                listout.append(dict1)
                 i += 1
         except Exception as e:
             j += 1
             print(e,type(e))
         
     print('check >', i, j)
-    print(stringout.strip())
+    listout = listout[::-1]
 
-    return stringout
+    return {'data':listout}
 # <---------------------------------------------------------> #  
 
 if __name__ == '__main__':
