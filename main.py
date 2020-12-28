@@ -2,6 +2,7 @@
 #Date: 02/11/2020.
 
 import re
+import json
 import urllib
 import pymongo
 import uvicorn
@@ -409,44 +410,6 @@ def news_all(lim:int=30):
 
     return {'data':listout}
 # <---------------------------------------------------------> #
-@app.get("/lazada-tokens")
-def lazada_tokens(lim:int=30):
-    with open('tokens.json', 'r', encoding='utf-8') as f:
-        dicttokens = json.loads(f.readline())
-    liststopwords = [' ', '', 'ครับ', 'คับ', 'คัพ', 'คัฟ', 'ค่ะ', 'คะ', 'ค้ะ', '?']
-    listint = list(range(0,10))
-    listint = [str(a) for a in listint]
-    listtokensout = []
-    listname = []
-    dicttokensaspectcount = {}
-    i = 0
-
-    for a,b in dicttokens.items():
-
-        listname.append(str(a))
-
-        dicttokensaspectcount = {}
-        for obj in b:
-            for to in obj:
-                if str(to) in liststopwords:
-                    i += 1
-                else:
-                    if len(str(to)) == 1 and str(to) not in listint:
-                        i += 1
-                    else:
-                        if str(to) in dicttokensaspectcount.keys():
-                            dicttokensaspectcount[str(to)] += 1
-                        else:
-                            dicttokensaspectcount[str(to)] = 1
-
-            dictout = {str(a):dict(list(dicttokensaspectcount)[0:int(lim)])}
-            listtokensout.append(dictout)
-
-    #print(len(listtokensout), 'stopwords >>', i)
-    #print(listtokensout[-2])
-
-    return {'data':listtokensout}
-# <---------------------------------------------------------> #  
 
 if __name__ == '__main__':
    uvicorn.run(app, host="0.0.0.0", port=8080, debug=True) 
