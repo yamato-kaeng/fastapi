@@ -414,7 +414,7 @@ def news_all(lim:int=30):
 def covid_api():
     res = requests.get('https://covid19.th-stat.com/api/open/today')
     jj = res.json()
-    stringout = 'ติดเชื้อรายใหม่ >'+'\t'+str(jj['NewConfirmed'])+'<br>'+'อัพเดทข้อมูลล่าสุด >'+'\t'+str(jj['UpdateDate'])+'<br>'+'ติดเชื้อสะสม >'+'\t'+str(jj['Confirmed'])+'<br>'+'หายแล้ว >'+'\t'+str(jj['Recovered'])+'<br>'+'รักษาอยู่ใน รพ. >'+'\t'+str(jj['Hospitalized'])
+    stringout = 'ติดเชื้อรายใหม่ > '+str(jj['NewConfirmed'])+'<br>'+'อัพเดทข้อมูลล่าสุด > '+str(jj['UpdateDate'])+'<br>'+'ติดเชื้อสะสม > '+str(jj['Confirmed'])+'<br>'+'หายแล้ว > '+str(jj['Recovered'])+'<br>'+'รักษาอยู่ใน รพ. > '+str(jj['Hospitalized'])
 
     return stringout
 # <---------------------------------------------------------> #
