@@ -410,6 +410,14 @@ def news_all(lim:int=30):
 
     return {'data':listout}
 # <---------------------------------------------------------> #
+@app.get("/covid-api", response_class = PlainTextResponse)
+def covid_api():
+    res = requests.get('https://covid19.th-stat.com/api/open/today')
+    jj = res.json()
+    stringout = 'ติดเชื้อรายใหม่ >'+'\t'+str(jj['NewConfirmed'])+'<br>'+'อัพเดทข้อมูลล่าสุด >'+'\t'+str(jj['UpdateDate'])+'<br>'+'ติดเชื้อสะสม >'+'\t'+str(jj['Confirmed'])+'<br>'+'หายแล้ว >'+'\t'+str(jj['Recovered'])+'<br>'+'รักษาอยู่ใน รพ. >'+'\t'+str(jj['Hospitalized'])
+
+    return stringout
+# <---------------------------------------------------------> #
 
 if __name__ == '__main__':
    uvicorn.run(app, host="0.0.0.0", port=8080, debug=True) 
