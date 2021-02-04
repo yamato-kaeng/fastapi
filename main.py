@@ -444,7 +444,7 @@ def flex_news_covid(lim:int=20):
 
     return {'data':listout}
 # <---------------------------------------------------------> #
-@app.get("/flex-news-covid-test")
+@app.get("/flex-news-covid-test",  response_class = PlainTextResponse)
 def flex_news_covid_test():
 
     s = {"type": "carousel",
