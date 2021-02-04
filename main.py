@@ -438,19 +438,35 @@ def flex_news_covid(lim:int=20):
         listimageout = []
         i = 0
         for a in listimage:
-            dict1 = {
-                "type": "image",
-                "url": str(listcat[i]),
-                "align": "center",
-                "gravity": "top",
-                "size": "sm",
-                "aspectRatio": "4:3",
-                "aspectMode": "cover",
-                "action": {
-                    "type": "uri",
-                    "uri": str(a['url'])
+            if i == 0:
+                dict1 = {
+                    "type": "image",
+                    "url": str(listcat[i]),
+                    "align": "center",
+                    "gravity": "top",
+                    "size": "sm",
+                    "aspectRatio": "4:3",
+                    "aspectMode": "cover",
+                    "action": {
+                        "type": "uri",
+                        "uri": str(a['url'])
+                    }
                 }
-            }
+            else:
+                dict1 = {
+                    "type": "image",
+                    "url": str(listcat[i]),
+                    "margin": "md",
+                    "align": "center",
+                    "gravity": "top",
+                    "size": "sm",
+                    "aspectRatio": "4:3",
+                    "aspectMode": "cover",
+                    "action": {
+                        "type": "uri",
+                        "uri": str(a['url'])
+                    }
+                }
             listimageout.append(dict1)
             i += 1
         return listimageout
@@ -470,6 +486,7 @@ def flex_news_covid(lim:int=20):
                     "type": "uri",
                     "uri": str(a['url'])
                 },
+                "wrap": true,
                 "contents": []
             }
         
@@ -493,10 +510,10 @@ def flex_news_covid(lim:int=20):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "NEWS DIGEST",
+                            "text": "LINE TODAY NEWS",
                             "weight": "bold",
                             "size": "sm",
-                            "color": "#AAAAAA",
+                            "color": "#000000FF",
                             "contents": []
                         }
                     ]
@@ -505,12 +522,13 @@ def flex_news_covid(lim:int=20):
                     "type": "image",
                     "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_4_news.png",
                     "size": "full",
-                    "aspectRatio": "20:13",
+                    "aspectRatio": "21:11",
                     "aspectMode": "cover",
+                    "backgroundColor": "#6DEA91FF",
                     "action": {
                         "type": "uri",
                         "label": "Action",
-                        "uri": "https://linecorp.com/"
+                        "uri": "https://today.line.me/th/v2/tab"
                     }
                 },
                 "body": {
@@ -536,216 +554,11 @@ def flex_news_covid(lim:int=20):
         
             listcarouselout.append(dict1)
             i += 5
-            if i == 10: return listcarouselout
+            if i == 20: return listcarouselout
 
     dictout = {"type": "carousel", "contents": carousel(listitems)}
 
     return str(dictout)
-# <---------------------------------------------------------> #
-@app.get("/flex-news-covid-test", response_class = PlainTextResponse)
-def flex_news_covid_test():
-
-    s = {"type": "carousel",
-  "contents": [
-    {
-      "type": "bubble",
-      "header": {
-        "type": "box",
-        "layout": "horizontal",
-        "contents": [
-          {
-            "type": "text",
-            "text": "NEWS DIGEST",
-            "weight": "bold",
-            "size": "sm",
-            "color": "#AAAAAA",
-            "contents": []
-          }
-        ]
-      },
-      "hero": {
-        "type": "image",
-        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_4_news.png",
-        "size": "full",
-        "aspectRatio": "20:13",
-        "aspectMode": "cover",
-        "action": {
-          "type": "uri",
-          "label": "Action",
-          "uri": "https://linecorp.com/"
-        }
-      },
-      "body": {
-        "type": "box",
-        "layout": "horizontal",
-        "spacing": "md",
-        "contents": [
-          {
-            "type": "box",
-            "layout": "vertical",
-            "flex": 1,
-            "contents": [
-	   {
-            "type": "image",
-            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/02_1_news_thumbnail_1.png",
-            "align": "center",
-            "gravity": "top",
-            "size": "sm",
-            "aspectRatio": "4:3",
-            "aspectMode": "cover",
-            "action": {
-              "type": "uri",
-              "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
-              }
-           },
-	   {
-            "type": "image",
-            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/02_1_news_thumbnail_2.png",
-            "margin": "md",
-            "align": "center",
-            "gravity": "top",
-            "size": "sm",
-            "aspectRatio": "4:3",
-            "aspectMode": "cover",
-            "action": {
-              "type": "uri",
-              "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
-              }
-           },
-	   {
-            "type": "image",
-            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_4_news.png",
-            "margin": "md",
-            "align": "center",
-            "gravity": "top",
-            "size": "sm",
-            "aspectRatio": "4:3",
-            "aspectMode": "cover",
-            "action": {
-              "type": "uri",
-              "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
-              }
-           },
-	   {
-            "type": "image",
-            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_6_carousel.png",
-            "margin": "md",
-            "align": "center",
-            "gravity": "top",
-            "size": "sm",
-            "aspectRatio": "4:3",
-            "aspectMode": "cover",
-            "action": {
-              "type": "uri",
-              "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
-              }
-           },
-	   {
-            "type": "image",
-            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_5_carousel.png",
-            "margin": "md",
-            "align": "center",
-            "gravity": "top",
-            "size": "sm",
-            "aspectRatio": "4:3",
-            "aspectMode": "cover",
-            "action": {
-              "type": "uri",
-              "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
-              }
-           }
-            ]
-          },
-          {
-            "type": "box",
-            "layout": "vertical",
-            "flex": 2,
-            "contents": [
-              {
-                "type": "text",
-                "text": "7 Things to Know for Today",
-                "size": "xs",
-                "flex": 2,
-                "align": "start",
-                "gravity": "center",
-                "action": {
-                  "type": "uri",
-                  "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
-                  }, 
-                "contents": []
-              },
-              {
-                "type": "separator"
-              },
-              {
-                "type": "text",
-                "text": "Hay fever goes wild",
-                "size": "xs",
-                "flex": 2,
-                "align": "start",
-                "gravity": "center",
-                "action": {
-                  "type": "uri",
-                  "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
-                  }, 
-                "contents": []
-              },
-              {
-                "type": "separator"
-              },
-              {
-                "type": "text",
-                "text": "LINE Pay Begins Barcode Payment Service",
-                "size": "xs",
-                "flex": 2,
-                "align": "start",
-                "gravity": "center",
-                "action": {
-                  "type": "uri",
-                  "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
-                  }, 
-                "contents": []
-              },
-              {
-                "type": "separator"
-              },
-              {
-                "type": "text",
-                "text": "LINE Adds LINE Wallet",
-                "size": "xs",
-                "flex": 2,
-                "align": "start",
-                "gravity": "center",
-                "action": {
-                  "type": "uri",
-                  "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
-                  }, 
-                "contents": []
-              },
-              {
-                "type": "separator"
-              },
-              {
-                "type": "text",
-                "text": "yamato",
-                "size": "xs",
-                "flex": 2,
-                "align": "start",
-                "gravity": "center",
-                "action": {
-                  "type": "uri",
-                  "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
-                  }, 
-                "contents": []
-              }
-            ]
-          }
-        ]
-      }
-    }
-  ]}
-
-    return str(s)
 # <---------------------------------------------------------> #
 
 if __name__ == '__main__':
