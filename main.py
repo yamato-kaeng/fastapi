@@ -418,33 +418,131 @@ def covid_api():
 
     return stringout
 # <---------------------------------------------------------> #
-@app.get("/flex-news-covid")
+@app.get("/flex-news-covid", response_class = PlainTextResponse)
 def flex_news_covid(lim:int=20):
-    client = pymongo.MongoClient()
-    db = client['news']
-    listlinetoday = list(db.linetoday.find())
-    print('sum >', len(listlinetoday))
-    i = 0
-    j = 0
+    import requests
+    res = requests.get('https://abdul.in.th/v24/yamato/news-covid?lim=20')
+    if str(res) != '<Response [200]>': return 'ERROR > https://abdul.in.th/v24/yamato/news-covid?lim=20'
 
-    listout = []
-    for a in listlinetoday[::-1]:
-        try:
-            if 'covid' in str(a['title']).strip() or 'covid' in str(a['description']).strip() or 'โควิด' in str(a['title']).strip() or 'โควิด' in str(a['description']).strip():
-                dict1 = {'url':str(a['url']), 'title':str(a['title']).strip(), 'description':str(a['description']).strip(), 'created_at':str(a['created_at'])}
-                listout.append(dict1)
-                i += 1
-            if len(listout) == int(lim):
-                break
-        except Exception as e:
-            j += 1
-            print(e,type(e))
+    listitems = []
+    listcat = ['https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg',
+           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJq7At985pAblTrxTw2Ed4oFv7-gSKXOVUgA&usqp=CAU',
+           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwbFjmdFjV30g9BmsQLalmFEdDpbzV0T-KEg&usqp=CAU',
+           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpruLsawmEmkm8aa1UQJ4bSK68NXIIJ1qcpQ&usqp=CAU',
+           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrXHYWYcGgqfMCoFDkMgzsQBAWfEeJfWXPlw&usqp=CAU']
+
+    for a in res.json()['data']:
+        listitems.append({'title':a['title'], 'url':a['url']})
+
+    def image(listimage):
+        listimageout = []
+        i = 0
+        for a in listimage:
+            dict1 = {
+                "type": "image",
+                "url": str(listcat[i]),
+                "align": "center",
+                "gravity": "top",
+                "size": "sm",
+                "aspectRatio": "4:3",
+                "aspectMode": "cover",
+                "action": {
+                    "type": "uri",
+                    "uri": str(a['url'])
+                }
+            }
+            listimageout.append(dict1)
+            i += 1
+        return listimageout
+
+    def title(listtitle):
+        listtitleout = []
+        i = 0
+        for a in listtitle:
+            dict1 = {
+                "type": "text",
+                "text": str(a['title']),
+                "size": "xs",
+                "flex": 2,
+                "align": "start",
+                "gravity": "center",
+                "action": {
+                    "type": "uri",
+                    "uri": str(a['url'])
+                },
+                "contents": []
+            }
         
-    print('check-covid >', i, j)
+            listtitleout.append(dict1)
+            i += 1
+            if i != len(listtitle):
+                listtitleout.append({"type": "separator"})
+        return listtitleout
 
-    return {'data':listout}
+    def carousel(listitems):
+        i = 0
+        listcarouselout = []
+        while (True):
+            listimage = image(listitems[i:i+5])
+            listtitle = title(listitems[i:i+5])
+            dict1 = {
+                "type": "bubble",
+                "header": {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "NEWS DIGEST",
+                            "weight": "bold",
+                            "size": "sm",
+                            "color": "#AAAAAA",
+                            "contents": []
+                        }
+                    ]
+                },
+                "hero": {
+                    "type": "image",
+                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_4_news.png",
+                    "size": "full",
+                    "aspectRatio": "20:13",
+                    "aspectMode": "cover",
+                    "action": {
+                        "type": "uri",
+                        "label": "Action",
+                        "uri": "https://linecorp.com/"
+                    }
+                },
+                "body": {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "md",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "flex": 1,
+                            "contents":listimage
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "flex": 2,
+                            "contents":listtitle
+                        }
+                    ]
+                }
+            }
+        
+            listcarouselout.append(dict1)
+            i += 5
+            if i == 10: return listcarouselout
+
+    dictout = {"type": "carousel", "contents": carousel(listitems)}
+
+    return str(dictout)
 # <---------------------------------------------------------> #
-@app.get("/flex-news-covid-test",  response_class = PlainTextResponse)
+@app.get("/flex-news-covid-test", response_class = PlainTextResponse)
 def flex_news_covid_test():
 
     s = {"type": "carousel",
