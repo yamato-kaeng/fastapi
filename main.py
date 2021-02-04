@@ -487,7 +487,6 @@ def flex_news_covid(lim:int=20):
                     "type": "uri",
                     "uri": str(a['url'])
                 },
-                "wrap": True,
                 "contents": []
             }
         
