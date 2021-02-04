@@ -520,9 +520,9 @@ def flex_news_covid(lim:int=20):
                 },
                 "hero": {
                     "type": "image",
-                    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_4_news.png",
+                    "url": "https://lineforbusiness.com/files/Service Logo-04___2.png",
                     "size": "full",
-                    "aspectRatio": "21:11",
+                    "aspectRatio": "20:12",
                     "aspectMode": "cover",
                     "backgroundColor": "#6DEA91FF",
                     "action": {
