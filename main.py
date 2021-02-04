@@ -447,8 +447,7 @@ def flex_news_covid(lim:int=20):
 @app.get("/flex-news-covid-test")
 def flex_news_covid_test():
 
-    s = '{
-  "type": "carousel",
+    s = {"type": "carousel",
   "contents": [
     {
       "type": "bubble",
@@ -646,8 +645,7 @@ def flex_news_covid_test():
         ]
       }
     }
-  ]
-}'
+  ]}
 
     return s
 # <---------------------------------------------------------> #
