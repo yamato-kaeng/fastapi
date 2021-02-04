@@ -647,7 +647,7 @@ def flex_news_covid_test():
     }
   ]}
 
-    return s
+    return str(s)
 # <---------------------------------------------------------> #
 
 if __name__ == '__main__':
