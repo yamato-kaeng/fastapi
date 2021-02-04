@@ -418,6 +418,239 @@ def covid_api():
 
     return stringout
 # <---------------------------------------------------------> #
+@app.get("/flex-news-covid")
+def flex_news_covid(lim:int=20):
+    client = pymongo.MongoClient()
+    db = client['news']
+    listlinetoday = list(db.linetoday.find())
+    print('sum >', len(listlinetoday))
+    i = 0
+    j = 0
+
+    listout = []
+    for a in listlinetoday[::-1]:
+        try:
+            if 'covid' in str(a['title']).strip() or 'covid' in str(a['description']).strip() or 'โควิด' in str(a['title']).strip() or 'โควิด' in str(a['description']).strip():
+                dict1 = {'url':str(a['url']), 'title':str(a['title']).strip(), 'description':str(a['description']).strip(), 'created_at':str(a['created_at'])}
+                listout.append(dict1)
+                i += 1
+            if len(listout) == int(lim):
+                break
+        except Exception as e:
+            j += 1
+            print(e,type(e))
+        
+    print('check-covid >', i, j)
+
+    return {'data':listout}
+# <---------------------------------------------------------> #
+@app.get("/flex-news-covid-test")
+def flex_news_covid_test():
+
+    s = '{
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "header": {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "text",
+            "text": "NEWS DIGEST",
+            "weight": "bold",
+            "size": "sm",
+            "color": "#AAAAAA",
+            "contents": []
+          }
+        ]
+      },
+      "hero": {
+        "type": "image",
+        "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_4_news.png",
+        "size": "full",
+        "aspectRatio": "20:13",
+        "aspectMode": "cover",
+        "action": {
+          "type": "uri",
+          "label": "Action",
+          "uri": "https://linecorp.com/"
+        }
+      },
+      "body": {
+        "type": "box",
+        "layout": "horizontal",
+        "spacing": "md",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "vertical",
+            "flex": 1,
+            "contents": [
+	   {
+            "type": "image",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/02_1_news_thumbnail_1.png",
+            "align": "center",
+            "gravity": "top",
+            "size": "sm",
+            "aspectRatio": "4:3",
+            "aspectMode": "cover",
+            "action": {
+              "type": "uri",
+              "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
+              }
+           },
+	   {
+            "type": "image",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/02_1_news_thumbnail_2.png",
+            "margin": "md",
+            "align": "center",
+            "gravity": "top",
+            "size": "sm",
+            "aspectRatio": "4:3",
+            "aspectMode": "cover",
+            "action": {
+              "type": "uri",
+              "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
+              }
+           },
+	   {
+            "type": "image",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_4_news.png",
+            "margin": "md",
+            "align": "center",
+            "gravity": "top",
+            "size": "sm",
+            "aspectRatio": "4:3",
+            "aspectMode": "cover",
+            "action": {
+              "type": "uri",
+              "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
+              }
+           },
+	   {
+            "type": "image",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_6_carousel.png",
+            "margin": "md",
+            "align": "center",
+            "gravity": "top",
+            "size": "sm",
+            "aspectRatio": "4:3",
+            "aspectMode": "cover",
+            "action": {
+              "type": "uri",
+              "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
+              }
+           },
+	   {
+            "type": "image",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_5_carousel.png",
+            "margin": "md",
+            "align": "center",
+            "gravity": "top",
+            "size": "sm",
+            "aspectRatio": "4:3",
+            "aspectMode": "cover",
+            "action": {
+              "type": "uri",
+              "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
+              }
+           }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "flex": 2,
+            "contents": [
+              {
+                "type": "text",
+                "text": "7 Things to Know for Today",
+                "size": "xs",
+                "flex": 2,
+                "align": "start",
+                "gravity": "center",
+                "action": {
+                  "type": "uri",
+                  "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
+                  }, 
+                "contents": []
+              },
+              {
+                "type": "separator"
+              },
+              {
+                "type": "text",
+                "text": "Hay fever goes wild",
+                "size": "xs",
+                "flex": 2,
+                "align": "start",
+                "gravity": "center",
+                "action": {
+                  "type": "uri",
+                  "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
+                  }, 
+                "contents": []
+              },
+              {
+                "type": "separator"
+              },
+              {
+                "type": "text",
+                "text": "LINE Pay Begins Barcode Payment Service",
+                "size": "xs",
+                "flex": 2,
+                "align": "start",
+                "gravity": "center",
+                "action": {
+                  "type": "uri",
+                  "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
+                  }, 
+                "contents": []
+              },
+              {
+                "type": "separator"
+              },
+              {
+                "type": "text",
+                "text": "LINE Adds LINE Wallet",
+                "size": "xs",
+                "flex": 2,
+                "align": "start",
+                "gravity": "center",
+                "action": {
+                  "type": "uri",
+                  "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
+                  }, 
+                "contents": []
+              },
+              {
+                "type": "separator"
+              },
+              {
+                "type": "text",
+                "text": "yamato",
+                "size": "xs",
+                "flex": 2,
+                "align": "start",
+                "gravity": "center",
+                "action": {
+                  "type": "uri",
+                  "uri": "https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg"
+                  }, 
+                "contents": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}'
+
+    return s
+# <---------------------------------------------------------> #
 
 if __name__ == '__main__':
    uvicorn.run(app, host="0.0.0.0", port=8080, debug=True) 
