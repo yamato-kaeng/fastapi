@@ -438,6 +438,7 @@ def flex_news_covid(lim:int=20):
         listimageout = []
         i = 0
         for a in listimage:
+            dict1 = {}
             if i == 0:
                 dict1 = {
                     "type": "image",
@@ -486,7 +487,7 @@ def flex_news_covid(lim:int=20):
                     "type": "uri",
                     "uri": str(a['url'])
                 },
-                "wrap": true,
+                "wrap": True,
                 "contents": []
             }
         
