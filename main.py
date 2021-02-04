@@ -520,7 +520,7 @@ def flex_news_covid(lim:int=20):
                 },
                 "hero": {
                     "type": "image",
-                    "url": "https://lineforbusiness.com/files/Service+"+"%20"+"Logo-04___2.png",
+                    "url": "https://lineforbusiness.com/files/Service"+"%20"+"Logo-04___2.png",
                     "size": "full",
                     "aspectRatio": "20:12",
                     "aspectMode": "cover",
