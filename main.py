@@ -582,55 +582,89 @@ def flex_news_all_v2():
                 "body": {
                     "type": "box",
                     "layout": "vertical",
-                    "contents": [{
-                        "type": "image",
-                        "url": str(a['imageurl']),
-                        "size": "full",
-                        "aspectMode": "cover",
-                        "aspectRatio": "2:3",
-                        "gravity": "top"},{
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [{
+                    "contents": [
+                        {
+                            "type": "image",
+                            "url": str(a['imageurl']),
+                            "size": "full",
+                            "aspectMode": "cover",
+                            "aspectRatio": "2:3",
+                            "gravity": "top"
+                        },
+                        {
                             "type": "box",
                             "layout": "vertical",
-                            "contents": [{
-                                "type": "text",
-                                "text": str(a['title']),
-                                "size": "md",
-                                "color": "#ffffff",
-                                "weight": "bold",
-                                "wrap": True}]},{
-                            "type": "box",
-                            "layout": "vertical",
-                            "contents": [{"type": "filler"},{
-                                "type": "box",
-                                "layout": "baseline",
-                                "contents": [{"type": "filler"},{
-                                    "type": "text",
-                                    "text": "more",
-                                    "color": "#ffffff",
-                                    "flex": 0,
-                                    "offsetTop": "-2px"},{"type": "filler"}],
-                                "spacing": "sm"},{"type": "filler"}],
-                            "borderWidth": "1px",
-                            "cornerRadius": "sm",
-                            "spacing": "sm",
-                            "borderColor": "#ffffff",
-                            "margin": "xxl",
-                            "height": "40px",
-                            "action": {
-                                "type": "uri",
-                                "label": "action",
-                                "uri": str(a['url'])}}],
-                        "position": "absolute",
-                        "offsetBottom": "0px",
-                        "offsetStart": "0px",
-                        "offsetEnd": "0px",
-                        "backgroundColor": "#03303Acc",
-                        "paddingAll": "20px",
-                        "paddingTop": "18px"}],
-                    "paddingAll": "0px"}}
+                            "contents": [
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": str(a['title']),
+                                            "size": "md",
+                                            "color": "#ffffff",
+                                            "weight": "bold",
+                                            "wrap": True
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [
+                                        {
+                                            "type": "filler"
+                                        },
+                                        {
+                                            "type": "box",
+                                            "layout": "baseline",
+                                            "contents": [
+                                                {
+                                                    "type": "filler"
+                                                },
+                                                {
+                                                    "type": "text",
+                                                    "text": "more",
+                                                    "color": "#ffffff",
+                                                    "flex": 0,
+                                                    "offsetTop": "-2px"
+                                                },
+                                                {
+                                                    "type": "filler"
+                                                }
+                                            ],
+                                            "spacing": "sm"
+                                        },
+                                        {
+                                            "type": "filler"
+                                        }
+                                    ],
+                                    "borderWidth": "1px",
+                                    "cornerRadius": "sm",
+                                    "spacing": "sm",
+                                    "borderColor": "#ffffff",
+                                    "margin": "xxl",
+                                    "height": "40px",
+                                    "action": {
+                                        "type": "uri",
+                                        "label": "action",
+                                        "uri": str(a['url'])
+                                    }
+                                }
+                            ],
+                            "position": "absolute",
+                            "offsetBottom": "0px",
+                            "offsetStart": "0px",
+                            "offsetEnd": "0px",
+                            "backgroundColor": "#03303Acc",
+                            "paddingAll": "20px",
+                            "paddingTop": "18px"
+                        }
+                    ],
+                "paddingAll": "0px"
+                }
+            }
         
             listflex.append(dict1)
         return listflex
@@ -638,6 +672,184 @@ def flex_news_all_v2():
     dictout = {"type": "carousel", "contents": content(listitems)}
     return str(dictout)
 # <---------------------------------------------------------> #
+@app.get("/flex-news-all-v2-test", response_class = PlainTextResponse)
+def flex_news_all_v2_test():
+    return str({
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "image",
+            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip1.jpg",
+            "size": "full",
+            "aspectMode": "cover",
+            "aspectRatio": "2:3",
+            "gravity": "top"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "POLAR ค้านคำวินิจฉัยตลท. ยันหุ้นไม่เข้าข่ายเพิกถอน จ่อยื่นอุทธรณ์สู้!",
+                    "size": "md",
+                    "color": "#ffffff",
+                    "weight": "bold",
+                    "wrap": true
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "filler"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "baseline",
+                    "contents": [
+                      {
+                        "type": "filler"
+                      },
+                      {
+                        "type": "text",
+                        "text": "more",
+                        "color": "#ffffff",
+                        "flex": 0,
+                        "offsetTop": "-2px"
+                      },
+                      {
+                        "type": "filler"
+                      }
+                    ],
+                    "spacing": "sm"
+                  },
+                  {
+                    "type": "filler"
+                  }
+                ],
+                "borderWidth": "1px",
+                "cornerRadius": "sm",
+                "spacing": "sm",
+                "borderColor": "#ffffff",
+                "margin": "xxl",
+                "height": "40px"
+              }
+            ],
+            "position": "absolute",
+            "offsetBottom": "0px",
+            "offsetStart": "0px",
+            "offsetEnd": "0px",
+            "backgroundColor": "#03303Acc",
+            "paddingAll": "20px",
+            "paddingTop": "18px"
+          }
+        ],
+        "paddingAll": "0px"
+      }
+    },
+    {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "image",
+            "url": "https://obs.line-scdn.net/0hlB77bUb_M20KTiUr52tMOjAYMAI5IiBubnhiblYgbVomfXRvNy5_Wykbag0lKXQzZH14CShHKFxyeiA6MC9_/w1200",
+            "size": "full",
+            "aspectMode": "cover",
+            "aspectRatio": "2:3",
+            "gravity": "top"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "‘หุ้น-น้ำมัน-ทองคำ’ขึ้นแรง ดาวโจนส์พุ่งทุบสถิติ น้ำมันสูงสุดรอบ 1 ปี",
+                    "size": "md",
+                    "color": "#ffffff",
+                    "weight": "bold",
+                    "wrap": true
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "filler"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "baseline",
+                    "contents": [
+                      {
+                        "type": "filler"
+                      },
+                      {
+                        "type": "text",
+                        "text": "more",
+                        "color": "#ffffff",
+                        "flex": 0,
+                        "offsetTop": "-2px"
+                      },
+                      {
+                        "type": "filler"
+                      }
+                    ],
+                    "spacing": "sm"
+                  },
+                  {
+                    "type": "filler"
+                  }
+                ],
+                "borderWidth": "1px",
+                "cornerRadius": "sm",
+                "spacing": "sm",
+                "borderColor": "#ffffff",
+                "margin": "xxl",
+                "height": "40px",
+                "action": {
+                  "type": "uri",
+                  "label": "action",
+                  "uri": "http://linecorp.com/"
+                }
+              }
+            ],
+            "position": "absolute",
+            "offsetBottom": "0px",
+            "offsetStart": "0px",
+            "offsetEnd": "0px",
+            "backgroundColor": "#9C8E7Ecc",
+            "paddingAll": "20px",
+            "paddingTop": "18px"
+          }
+        ],
+        "paddingAll": "0px"
+      }
+    }
+  ]
+})
 
 if __name__ == '__main__':
    uvicorn.run(app, host="0.0.0.0", port=8080, debug=True) 
