@@ -418,8 +418,8 @@ def covid_api():
 
     return stringout
 # <---------------------------------------------------------> #
-@app.get("/flex-news-covid", response_class = PlainTextResponse)
-def flex_news_covid(lim:int=20):
+@app.get("/flex-news-all-v1", response_class = PlainTextResponse)
+def flex_news_all_v1(lim:int=20):
     import requests
     res = requests.get('https://abdul.in.th/v24/yamato/news-covid?lim=20')
     if str(res) != '<Response [200]>': return 'ERROR > https://abdul.in.th/v24/yamato/news-covid?lim=20'
@@ -432,7 +432,8 @@ def flex_news_covid(lim:int=20):
            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrXHYWYcGgqfMCoFDkMgzsQBAWfEeJfWXPlw&usqp=CAU']
 
     for a in res.json()['data']:
-        listitems.append({'title':a['title'], 'url':a['url']})
+        if str(a['imageurl']) != '':
+            listitems.append({'title':a['title'], 'url':a['url'], 'imageurl':a['imageurl']})
 
     def image(listimage):
         listimageout = []
@@ -442,7 +443,8 @@ def flex_news_covid(lim:int=20):
             if i == 0:
                 dict1 = {
                     "type": "image",
-                    "url": str(listcat[i]),
+                    #"url": str(listcat[i]),
+                    "url": str(a['imageurl']),
                     "align": "center",
                     "gravity": "top",
                     "size": "sm",
@@ -456,7 +458,8 @@ def flex_news_covid(lim:int=20):
             else:
                 dict1 = {
                     "type": "image",
-                    "url": str(listcat[i]),
+                    #"url": str(listcat[i]),
+                    "url": str(a['imageurl']),
                     "margin": "md",
                     "align": "center",
                     "gravity": "top",
@@ -558,6 +561,81 @@ def flex_news_covid(lim:int=20):
 
     dictout = {"type": "carousel", "contents": carousel(listitems)}
 
+    return str(dictout)
+# <---------------------------------------------------------> #
+@app.get("/flex-news-all-v2", response_class = PlainTextResponse)
+def flex_news_all_v2():
+    import requests
+    res = requests.get('https://abdul.in.th/v24/yamato/news-covid?lim=10')
+    if str(res) != '<Response [200]>': return 'ERROR > https://abdul.in.th/v24/yamato/news-covid?lim=20'
+
+    listitems = []
+    for a in res.json()['data']:    
+        if str(a['imageurl']) != '':
+            listitems.append({'title':a['title'], 'url':a['url'], 'imageurl':a['imageurl']})
+
+    def content(items):
+        listflex = []
+        for a in items:
+            dict1 = {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [{
+                        "type": "image",
+                        "url": str(a['imageurl']),
+                        "size": "full",
+                        "aspectMode": "cover",
+                        "aspectRatio": "2:3",
+                        "gravity": "top"},{
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [{
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [{
+                                "type": "text",
+                                "text": str(a['title']),
+                                "size": "md",
+                                "color": "#ffffff",
+                                "weight": "bold",
+                                "wrap": True}]},{
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [{"type": "filler"},{
+                                "type": "box",
+                                "layout": "baseline",
+                                "contents": [{"type": "filler"},{
+                                    "type": "text",
+                                    "text": "more",
+                                    "color": "#ffffff",
+                                    "flex": 0,
+                                    "offsetTop": "-2px"},{"type": "filler"}],
+                                "spacing": "sm"},{"type": "filler"}],
+                            "borderWidth": "1px",
+                            "cornerRadius": "sm",
+                            "spacing": "sm",
+                            "borderColor": "#ffffff",
+                            "margin": "xxl",
+                            "height": "40px",
+                            "action": {
+                                "type": "uri",
+                                "label": "action",
+                                "uri": str(a['url'])}}],
+                        "position": "absolute",
+                        "offsetBottom": "0px",
+                        "offsetStart": "0px",
+                        "offsetEnd": "0px",
+                        "backgroundColor": "#03303Acc",
+                        "paddingAll": "20px",
+                        "paddingTop": "18px"}],
+                    "paddingAll": "0px"}}
+        
+            listflex.append(dict1)
+        return listflex
+
+    dictout = {"type": "carousel", "contents": content(listitems)}
     return str(dictout)
 # <---------------------------------------------------------> #
 
