@@ -487,9 +487,9 @@ def covid_api():
 @app.get("/flex-news-all-v1", response_class=PlainTextResponse)
 def flex_news_all_v1(lim: int = 20):
     import requests
-    res = requests.get('https://abdul.in.th/v24/yamato/news-covid?lim=20')
+    res = requests.get('https://abdul.in.th/v24/yamato/news-all?lim=20')
     if str(res) != '<Response [200]>':
-        return 'ERROR > https://abdul.in.th/v24/yamato/news-covid?lim=20'
+        return 'ERROR > https://abdul.in.th/v24/yamato/news-all?lim=20'
 
     listitems = []
     listcat = ['https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg',
@@ -500,8 +500,7 @@ def flex_news_all_v1(lim: int = 20):
 
     for a in res.json()['data']:
         if str(a['imageurl']) != '':
-            listitems.append(
-                {'title': a['title'], 'url': a['url'], 'imageurl': a['imageurl']})
+            listitems.append({'title': a['title'], 'url': a['url'], 'imageurl': a['imageurl']})
 
     def image(listimage):
         listimageout = []
@@ -637,15 +636,13 @@ def flex_news_all_v1(lim: int = 20):
 @app.get("/flex-news-all-v2", response_class=PlainTextResponse)
 def flex_news_all_v2():
     import requests
-    res = requests.get('https://abdul.in.th/v24/yamato/news-covid?lim=5')
-    if str(res) != '<Response [200]>':
-        return 'ERROR > https://abdul.in.th/v24/yamato/news-covid?lim=20'
+    res = requests.get('https://abdul.in.th/v24/yamato/news-all?lim=3')
+    if str(res) != '<Response [200]>': return 'ERROR > https://abdul.in.th/v24/yamato/news-all'
 
     listitems = []
     for a in res.json()['data']:
         if str(a['imageurl']) != '':
-            listitems.append(
-                {'title': a['title'], 'url': a['url'], 'imageurl': a['imageurl']})
+            listitems.append({'title': a['title'], 'url': a['url'], 'imageurl': a['imageurl']})
 
     def content(items):
         listflex = []
