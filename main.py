@@ -566,7 +566,7 @@ def flex_news_all_v1(lim:int=20):
 @app.get("/flex-news-all-v2", response_class = PlainTextResponse)
 def flex_news_all_v2():
     import requests
-    res = requests.get('https://abdul.in.th/v24/yamato/news-covid?lim=10')
+    res = requests.get('https://abdul.in.th/v24/yamato/news-covid?lim=5')
     if str(res) != '<Response [200]>': return 'ERROR > https://abdul.in.th/v24/yamato/news-covid?lim=20'
 
     listitems = []
