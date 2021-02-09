@@ -1,5 +1,5 @@
-#Author: Yamato Kaeng
-#Date: 02/11/2020.
+# Author: Yamato Kaeng
+# Date: 02/11/2020.
 
 import re
 import json
@@ -18,10 +18,10 @@ app = FastAPI()
 # root_path="/yamato" run on vm setpath
 
 origins = [
-    #"http://localhost.tiangolo.com",
-    #"https://localhost.tiangolo.com",
-    #"http://localhost",
-    #"http://localhost:8080",
+    # "http://localhost.tiangolo.com",
+    # "https://localhost.tiangolo.com",
+    # "http://localhost",
+    # "http://localhost:8080",
     "*"
 ]
 
@@ -35,116 +35,149 @@ app.add_middleware(
 
 
 def result(res):
-    return {"result":res}
-# <---------------------------------------------------------> # 
+    return {"result": res}
+# <---------------------------------------------------------> #
+
+
 @app.get("/")
 async def main():
     return 'Hello Wellcome To Yamato-Kaeng'
-# <---------------------------------------------------------> #    
+# <---------------------------------------------------------> #
+
+
 @app.get("/test")
 async def test():
     return 'Test Tutorial'
-# <---------------------------------------------------------> #  
+# <---------------------------------------------------------> #
+
+
 @app.get("/bmi")
-def bmi(h :int=1, w:int=0):
-    
+def bmi(h: int = 1, w: int = 0):
+
     h = (h/100) ** 2
     bmi = w/h
-    
+
     des = ""
-    
+
     if(bmi < 18.5):
         des = "ต่ำกว่าเกณฑ์"
-        
-    jsonout = {'bmi':f'{bmi:.2f}', 'des':des}
-    
+
+    jsonout = {'bmi': f'{bmi:.2f}', 'des': des}
+
     return jsonout
 # <---------------------------------------------------------> #
+
+
 @app.get("/datatimes")
-def datetimes(t:str='+1'):
+def datetimes(t: str = '+1'):
     dateout = str(datetime.datetime.now() + datetime.timedelta(days=int(t)))
     return dateout
 # <---------------------------------------------------------> #
+
+
 @app.get("/add")
 async def add(a: int = 0, b: int = 0):
     return a+b
-# <---------------------------------------------------------> #  
+# <---------------------------------------------------------> #
+
+
 @app.get("/mul")
 async def mul(a: int = 0, b: int = 0):
     return a*b
-# <---------------------------------------------------------> #  
+# <---------------------------------------------------------> #
+
+
 def tonumlist(li):
     ls = li.split(',')
     for i in range(len(ls)):
         ls[i] = float(ls[i])
     return list(ls)
 
+
 @app.get("/asc")
 async def asc(li):
     ls = tonumlist(li)
     ls.sort()
     return ls
-# <---------------------------------------------------------> #  
+# <---------------------------------------------------------> #
+
+
 @app.get("/desc")
 async def desc(li):
     ls = tonumlist(li)
     ls.sort(reverse=True)
     return ls
-# <---------------------------------------------------------> #  
+# <---------------------------------------------------------> #
+
+
 @app.get("/sum")
 async def sum(li):
     ls = tonumlist(li)
     return np.sum(np.array(ls))
-# <---------------------------------------------------------> #  
+# <---------------------------------------------------------> #
+
+
 @app.get("/avg")
 async def avg(li):
     ls = tonumlist(li)
     return np.average(ls)
-# <---------------------------------------------------------> #  
+# <---------------------------------------------------------> #
+
+
 @app.get("/mean")
 async def mean(li):
     ls = tonumlist(li)
     return np.mean(ls)
-# <---------------------------------------------------------> #  
+# <---------------------------------------------------------> #
+
+
 @app.get("/max")
 async def max(li):
     ls = tonumlist(li)
     return np.amax(ls)
-# <---------------------------------------------------------> #  
+# <---------------------------------------------------------> #
+
+
 @app.get("/min")
 async def min(li):
     ls = tonumlist(li)
     return np.amin(ls)
-# <---------------------------------------------------------> #  
+# <---------------------------------------------------------> #
+
+
 @app.get("/validation-ctzid")
 async def validation_ctzid(text):
     if(len(text) != 13):
         return False
-    
+
     sum = 0
     listdata = list(text)
-    
+
     for i in range(12):
-        sum+=int(listdata[i])*(13-i)
-        
-    d13 = sum%11
-            
-    d13 = 1 if d13==0 else 0 if d13==1 else 11-d13
-    
-    if d13==int(listdata[12]):
+        sum += int(listdata[i])*(13-i)
+
+    d13 = sum % 11
+
+    d13 = 1 if d13 == 0 else 0 if d13 == 1 else 11-d13
+
+    if d13 == int(listdata[12]):
         return True
     else:
         return False
-# <---------------------------------------------------------> #  
+# <---------------------------------------------------------> #
+
+
 @app.get("/validation-email")
-async def validation_email(text):  
+async def validation_email(text):
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-    if re.search(regex,text):
+    if re.search(regex, text):
         return True
     else:
         return False
-# <---------------------------------------------------------> #  
-@app.get("/google-search",response_class=PlainTextResponse)
+# <---------------------------------------------------------> #
+
+
+@app.get("/google-search", response_class=PlainTextResponse)
 def google_search(text):
     # ค้นหา cat ==> head + url
     headers = {
@@ -157,10 +190,10 @@ def google_search(text):
         'Upgrade-Insecure-Requests': '1'
     }
     url = 'https://www.google.com/search?q=' + urllib.parse.quote(str(text))
-    res = requests.get(url, headers = headers)
+    res = requests.get(url, headers=headers)
     soup = BeautifulSoup(res.content, 'html.parser')
-    
-    t = soup.findAll('div', {'class':"r"})
+
+    t = soup.findAll('div', {'class': "r"})
     i = 0
     result = ''
     for a in t:
@@ -170,12 +203,14 @@ def google_search(text):
         i += 1
         if(i >= 5):
             break
-    
+
     return(result)
-# <---------------------------------------------------------> #  
-@app.get("/google-search-youtube",response_class=PlainTextResponse)
+# <---------------------------------------------------------> #
+
+
+@app.get("/google-search-youtube", response_class=PlainTextResponse)
 def google_search_youtube(text):
-    
+
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:81.0) Gecko/20100101 Firefox/81.0',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -185,11 +220,12 @@ def google_search_youtube(text):
         'Connection': 'keep-alive',
         'Upgrade-Insecure-Requests': '1'
     }
-    #url = 'https://www.google.com/search?q=' + str(text) + '&tbm=vid&hl=en-US' ----> แบบนี้อาจจะแย่มากไปนะจ๊ะ
-    url = 'https://www.google.com/search?q=site:youtube.com ' + urllib.parse.quote(str(text))
-    res = requests.get(url, headers = headers)
+    # url = 'https://www.google.com/search?q=' + str(text) + '&tbm=vid&hl=en-US' ----> แบบนี้อาจจะแย่มากไปนะจ๊ะ
+    url = 'https://www.google.com/search?q=site:youtube.com ' + \
+        urllib.parse.quote(str(text))
+    res = requests.get(url, headers=headers)
     soup = BeautifulSoup(res.content, 'html.parser')
-    
+
     t = soup.findAll('a')
     listcheck = list()
     result = ''
@@ -206,8 +242,10 @@ def google_search_youtube(text):
                     return result
         except KeyError as e:
             continue
-# <---------------------------------------------------------> #  
-@app.get("/text-tokenize", response_class = PlainTextResponse)
+# <---------------------------------------------------------> #
+
+
+@app.get("/text-tokenize", response_class=PlainTextResponse)
 def text_tokenize(text):
     tr1 = ''
     tr2 = ''
@@ -242,8 +280,9 @@ def text_tokenize(text):
         cc4 = checktext(tr4)
         for a in cc4.split('~')[1::]:
             textout = textout + "'" + a + "'" + '\n'
-    
+
     return textout.strip()
+
 
 def checktext(tr):
     check = False
@@ -261,68 +300,80 @@ def checktext(tr):
         if(check):
             textout = textout + a
     return textout
-# <---------------------------------------------------------> #  
-@app.get("/ark-serversPVP", response_class = PlainTextResponse)
+# <---------------------------------------------------------> #
+
+
+@app.get("/ark-serversPVP", response_class=PlainTextResponse)
 def ark_serverPVP():
     # Ragnarok! ==> GetServers ARK !!
     res = requests.get('https://www.battlemetrics.com/servers/ark/6663725')
     soup = BeautifulSoup(res.content, 'html.parser')
-    f = soup.find('div', {'class':"col-md-8"}).findAll('a')
-    t = soup.find('div', {'class':"col-md-8"}).findAll('time')
+    f = soup.find('div', {'class': "col-md-8"}).findAll('a')
+    t = soup.find('div', {'class': "col-md-8"}).findAll('time')
 
     text = ''
-    for a in range(0,len(f)):
+    for a in range(0, len(f)):
         print(f[a].text.strip(), t[a].text.strip())
         text = text + f[a].text.strip() + ' >> ' + t[a].text.strip() + '<br>'
-    
+
     text = 'Active players : ' + str(len(f)) + '<br><br>' + text
-    
+
     return(text)
-# <---------------------------------------------------------> #  
-@app.get("/ark-serversPVEEx", response_class = PlainTextResponse)
+# <---------------------------------------------------------> #
+
+
+@app.get("/ark-serversPVEEx", response_class=PlainTextResponse)
 def ark_serverPVEEx():
     # Extinction! ==> GetServers ARK !!
     res = requests.get('https://www.battlemetrics.com/servers/ark/6663729')
     soup = BeautifulSoup(res.content, 'html.parser')
-    f = soup.find('div', {'class':"col-md-8"}).findAll('a')
-    t = soup.find('div', {'class':"col-md-8"}).findAll('time')
+    f = soup.find('div', {'class': "col-md-8"}).findAll('a')
+    t = soup.find('div', {'class': "col-md-8"}).findAll('time')
 
     text = ''
-    for a in range(0,len(f)):
+    for a in range(0, len(f)):
         print(f[a].text.strip(), t[a].text.strip())
         text = text + f[a].text.strip() + ' >> ' + t[a].text.strip() + '<br>'
-    
+
     text = 'Active players : ' + str(len(f)) + '<br><br>' + text
-    
+
     return(text)
-# <---------------------------------------------------------> #  
-@app.get("/ark-serversPVEPm", response_class = PlainTextResponse)
+# <---------------------------------------------------------> #
+
+
+@app.get("/ark-serversPVEPm", response_class=PlainTextResponse)
 def ark_serverPVEPm():
     # Primal! ==> GetServers ARK !!
     res = requests.get('https://www.battlemetrics.com/servers/ark/8002813')
     soup = BeautifulSoup(res.content, 'html.parser')
-    f = soup.find('div', {'class':"col-md-8"}).findAll('a')
-    t = soup.find('div', {'class':"col-md-8"}).findAll('time')
+    f = soup.find('div', {'class': "col-md-8"}).findAll('a')
+    t = soup.find('div', {'class': "col-md-8"}).findAll('time')
 
     text = ''
-    for a in range(0,len(f)):
+    for a in range(0, len(f)):
         print(f[a].text.strip(), t[a].text.strip())
         text = text + f[a].text.strip() + ' >> ' + t[a].text.strip() + '<br>'
-    
+
     text = 'Active players : ' + str(len(f)) + '<br><br>' + text
-    
+
     return(text)
-# <---------------------------------------------------------> #  
-@app.get("/jobsDB-test", response_class = PlainTextResponse)
+# <---------------------------------------------------------> #
+
+
+@app.get("/jobsDB-test", response_class=PlainTextResponse)
 def jobs_Test():
-    
-    res = requests.get('https://th.jobsdb.com/th/th/job/oracle-functional-consultant-300003002258965', verify=False)
+
+    res = requests.get(
+        'https://th.jobsdb.com/th/th/job/oracle-functional-consultant-300003002258965', verify=False)
     soup = BeautifulSoup(res.content, 'html.parser')
-    f = soup.find('h1', {'class':"FYwKg C6ZIU_3 _3nVJR_3 _642YY_3 _27Shq_3 _2k6I7_3"}).text
+    f = soup.find(
+        'h1', {'class': "FYwKg C6ZIU_3 _3nVJR_3 _642YY_3 _27Shq_3 _2k6I7_3"}).text
 
     return(f)
-# <---------------------------------------------------------> #  
-@app.get("/math-X", response_class = PlainTextResponse)
+# <---------------------------------------------------------> #
+
+
+@app.get("/math-X", response_class=PlainTextResponse)
 def math_X(text):
     # 1,2,3 ==> 6
     listobj = text.split(',')
@@ -331,8 +382,10 @@ def math_X(text):
         sumout *= int(a)
 
     return(str(sumout))
-# <---------------------------------------------------------> #  
-@app.get("/math-ascii", response_class = PlainTextResponse)
+# <---------------------------------------------------------> #
+
+
+@app.get("/math-ascii", response_class=PlainTextResponse)
 def math_ascii(text):
     # abc10 ==> '0x61,0x62,0x63,0x31,0x30'
     textout = ''
@@ -346,20 +399,24 @@ def math_ascii(text):
         count += 1
 
     return(textout)
-# <---------------------------------------------------------> #  
+# <---------------------------------------------------------> #
+
+
 @app.get("/readmongo")
 def readmongo():
     client = pymongo.MongoClient()
     db = client['test_pymongo']
     listout = []
     for a in db.test.find():
-        dict1 = {'id':str(a['_id']), 'name':a['name'], 'age':a['age']}
+        dict1 = {'id': str(a['_id']), 'name': a['name'], 'age': a['age']}
         listout.append(dict1)
 
     return listout
-# <---------------------------------------------------------> #  
+# <---------------------------------------------------------> #
+
+
 @app.get("/news-covid")
-def news_covid(lim:int=30):
+def news_covid(lim: int = 30):
     client = pymongo.MongoClient()
     db = client['news']
     listlinetoday = list(db.linetoday.find())
@@ -373,21 +430,24 @@ def news_covid(lim:int=30):
             if 'covid' in str(a['title']).strip() or 'covid' in str(a['description']).strip() or 'โควิด' in str(a['title']).strip() or 'โควิด' in str(a['description']).strip():
                 #stringout += 'url > ' + str(a['url']) + '<br>' +'title > ' + str(a['title']) + '<br>' +'description > ' + str(a['description']) + '<br>' +'created_at > ' + str(a['created_at']) + '<br>' + '-'*50 + '<br>'
                 #stringout += 'url > ' + str(a['url']) + '\n' +'title > ' + str(a['title']) + '\n' +'description > ' + str(a['description']) + '\n' +'created_at > ' + str(a['created_at']) + '\n' + '-'*50 + '\n'
-                dict1 = {'url':str(a['url']), 'title':str(a['title']).strip(), 'description':str(a['description']).strip(), 'created_at':str(a['created_at'])}
+                dict1 = {'url': str(a['url']), 'title': str(a['title']).strip(), 'description': str(
+                    a['description']).strip(), 'created_at': str(a['created_at'])}
                 listout.append(dict1)
                 i += 1
             if len(listout) == int(lim):
                 break
         except Exception as e:
             j += 1
-            print(e,type(e))
-        
+            print(e, type(e))
+
     print('check-covid >', i, j)
 
-    return {'data':listout}
+    return {'data': listout}
 # <---------------------------------------------------------> #
+
+
 @app.get("/news-all")
-def news_all(lim:int=30):
+def news_all(lim: int = 30):
     client = pymongo.MongoClient()
     db = client['news']
     listlinetoday = list(db.linetoday.find())
@@ -397,43 +457,51 @@ def news_all(lim:int=30):
     listout = []
     for a in listlinetoday[::-1]:
         try:
-            dict1 = {'url':str(a['url']), 'title':str(a['title']).strip(), 'description':str(a['description']).strip(), 'created_at':str(a['created_at'])}
+            dict1 = {'url': str(a['url']), 'title': str(a['title']).strip(), 'description': str(
+                a['description']).strip(), 'created_at': str(a['created_at'])}
             listout.append(dict1)
             i += 1
             if len(listout) == int(lim):
                 break
         except Exception as e:
             j += 1
-            print(e,type(e))
-        
+            print(e, type(e))
+
     print('check-all >', i, j)
 
-    return {'data':listout}
+    return {'data': listout}
 # <---------------------------------------------------------> #
-@app.get("/covid-api", response_class = PlainTextResponse)
+
+
+@app.get("/covid-api", response_class=PlainTextResponse)
 def covid_api():
     res = requests.get('https://covid19.th-stat.com/api/open/today')
     jj = res.json()
-    stringout = 'ติดเชื้อรายใหม่ > '+str(jj['NewConfirmed'])+'<br>'+'อัพเดทข้อมูลล่าสุด > '+str(jj['UpdateDate'])+'<br>'+'ติดเชื้อสะสม > '+str(jj['Confirmed'])+'<br>'+'หายแล้ว > '+str(jj['Recovered'])+'<br>'+'รักษาอยู่ใน รพ. > '+str(jj['Hospitalized'])
+    stringout = 'ติดเชื้อรายใหม่ > '+str(jj['NewConfirmed'])+'<br>'+'อัพเดทข้อมูลล่าสุด > '+str(jj['UpdateDate'])+'<br>'+'ติดเชื้อสะสม > '+str(
+        jj['Confirmed'])+'<br>'+'หายแล้ว > '+str(jj['Recovered'])+'<br>'+'รักษาอยู่ใน รพ. > '+str(jj['Hospitalized'])
 
     return stringout
 # <---------------------------------------------------------> #
-@app.get("/flex-news-all-v1", response_class = PlainTextResponse)
-def flex_news_all_v1(lim:int=20):
+
+
+@app.get("/flex-news-all-v1", response_class=PlainTextResponse)
+def flex_news_all_v1(lim: int = 20):
     import requests
     res = requests.get('https://abdul.in.th/v24/yamato/news-covid?lim=20')
-    if str(res) != '<Response [200]>': return 'ERROR > https://abdul.in.th/v24/yamato/news-covid?lim=20'
+    if str(res) != '<Response [200]>':
+        return 'ERROR > https://abdul.in.th/v24/yamato/news-covid?lim=20'
 
     listitems = []
     listcat = ['https://ichef.bbci.co.uk/news/640/cpsprodpb/51F3/production/_106997902_gettyimages-611696954.jpg',
-           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJq7At985pAblTrxTw2Ed4oFv7-gSKXOVUgA&usqp=CAU',
-           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwbFjmdFjV30g9BmsQLalmFEdDpbzV0T-KEg&usqp=CAU',
-           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpruLsawmEmkm8aa1UQJ4bSK68NXIIJ1qcpQ&usqp=CAU',
-           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrXHYWYcGgqfMCoFDkMgzsQBAWfEeJfWXPlw&usqp=CAU']
+               'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJq7At985pAblTrxTw2Ed4oFv7-gSKXOVUgA&usqp=CAU',
+               'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwbFjmdFjV30g9BmsQLalmFEdDpbzV0T-KEg&usqp=CAU',
+               'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpruLsawmEmkm8aa1UQJ4bSK68NXIIJ1qcpQ&usqp=CAU',
+               'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrXHYWYcGgqfMCoFDkMgzsQBAWfEeJfWXPlw&usqp=CAU']
 
     for a in res.json()['data']:
         if str(a['imageurl']) != '':
-            listitems.append({'title':a['title'], 'url':a['url'], 'imageurl':a['imageurl']})
+            listitems.append(
+                {'title': a['title'], 'url': a['url'], 'imageurl': a['imageurl']})
 
     def image(listimage):
         listimageout = []
@@ -443,7 +511,7 @@ def flex_news_all_v1(lim:int=20):
             if i == 0:
                 dict1 = {
                     "type": "image",
-                    #"url": str(listcat[i]),
+                    # "url": str(listcat[i]),
                     "url": str(a['imageurl']),
                     "align": "center",
                     "gravity": "top",
@@ -458,7 +526,7 @@ def flex_news_all_v1(lim:int=20):
             else:
                 dict1 = {
                     "type": "image",
-                    #"url": str(listcat[i]),
+                    # "url": str(listcat[i]),
                     "url": str(a['imageurl']),
                     "margin": "md",
                     "align": "center",
@@ -492,7 +560,7 @@ def flex_news_all_v1(lim:int=20):
                 },
                 "contents": []
             }
-        
+
             listtitleout.append(dict1)
             i += 1
             if i != len(listtitle):
@@ -543,36 +611,41 @@ def flex_news_all_v1(lim:int=20):
                             "type": "box",
                             "layout": "vertical",
                             "flex": 1,
-                            "contents":listimage
+                            "contents": listimage
                         },
                         {
                             "type": "box",
                             "layout": "vertical",
                             "flex": 2,
-                            "contents":listtitle
+                            "contents": listtitle
                         }
                     ]
                 }
             }
-        
+
             listcarouselout.append(dict1)
             i += 5
-            if i == 20: return listcarouselout
+            if i == 20:
+                return listcarouselout
 
     dictout = {"type": "carousel", "contents": carousel(listitems)}
 
     return str(dictout)
 # <---------------------------------------------------------> #
-@app.get("/flex-news-all-v2", response_class = PlainTextResponse)
+
+
+@app.get("/flex-news-all-v2", response_class=PlainTextResponse)
 def flex_news_all_v2():
     import requests
     res = requests.get('https://abdul.in.th/v24/yamato/news-covid?lim=5')
-    if str(res) != '<Response [200]>': return 'ERROR > https://abdul.in.th/v24/yamato/news-covid?lim=20'
+    if str(res) != '<Response [200]>':
+        return 'ERROR > https://abdul.in.th/v24/yamato/news-covid?lim=20'
 
     listitems = []
-    for a in res.json()['data']:    
+    for a in res.json()['data']:
         if str(a['imageurl']) != '':
-            listitems.append({'title':a['title'], 'url':a['url'], 'imageurl':a['imageurl']})
+            listitems.append(
+                {'title': a['title'], 'url': a['url'], 'imageurl': a['imageurl']})
 
     def content(items):
         listflex = []
@@ -645,12 +718,109 @@ def flex_news_all_v2():
                                     "spacing": "sm",
                                     "borderColor": "#ffffff",
                                     "margin": "xxl",
-                                    "height": "40px",
-                                    "action": {
-                                        "type": "uri",
-                                        "label": "action",
-                                        "uri": str(a['url'])
-                                    }
+                                    "height": "40px"
+                                }
+                            ],
+                            "position": "absolute",
+                            "offsetBottom": "0px",
+                            "offsetStart": "0px",
+                            "offsetEnd": "0px",
+                            "backgroundColor": "#03303Acc",
+                            "paddingAll": "20px",
+                            "paddingTop": "18px",
+                            "action": {
+                                "type": "uri",
+                                "label": "action",
+                                "uri": str(a['url'])
+                            }
+                        }
+                    ],
+                    "paddingAll": "0px"
+                }
+            }
+
+            listflex.append(dict1)
+        return listflex
+
+    dictout = {"type": "carousel", "contents": content(listitems)}
+    return str(dictout)
+# <---------------------------------------------------------> #
+
+
+@app.get("/flex-news-all-v2-test", response_class=PlainTextResponse)
+def flex_news_all_v2_test():
+    return str({
+        "type": "carousel",
+        "contents": [
+            {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "image",
+                            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip1.jpg",
+                            "size": "full",
+                            "aspectMode": "cover",
+                            "aspectRatio": "2:3",
+                            "gravity": "top"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "POLAR ค้านคำวินิจฉัยตลท. ยันหุ้นไม่เข้าข่ายเพิกถอน จ่อยื่นอุทธรณ์สู้!",
+                                            "size": "md",
+                                            "color": "#ffffff",
+                                            "weight": "bold",
+                                            "wrap": True
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [
+                                        {
+                                            "type": "filler"
+                                        },
+                                        {
+                                            "type": "box",
+                                            "layout": "baseline",
+                                            "contents": [
+                                                {
+                                                    "type": "filler"
+                                                },
+                                                {
+                                                    "type": "text",
+                                                    "text": "more",
+                                                    "color": "#ffffff",
+                                                    "flex": 0,
+                                                    "offsetTop": "-2px"
+                                                },
+                                                {
+                                                    "type": "filler"
+                                                }
+                                            ],
+                                            "spacing": "sm"
+                                        },
+                                        {
+                                            "type": "filler"
+                                        }
+                                    ],
+                                    "borderWidth": "1px",
+                                    "cornerRadius": "sm",
+                                    "spacing": "sm",
+                                    "borderColor": "#ffffff",
+                                    "margin": "xxl",
+                                    "height": "40px"
                                 }
                             ],
                             "position": "absolute",
@@ -662,194 +832,100 @@ def flex_news_all_v2():
                             "paddingTop": "18px"
                         }
                     ],
-                "paddingAll": "0px"
+                    "paddingAll": "0px"
+                }
+            },
+            {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "image",
+                            "url": "https://obs.line-scdn.net/0hlB77bUb_M20KTiUr52tMOjAYMAI5IiBubnhiblYgbVomfXRvNy5_Wykbag0lKXQzZH14CShHKFxyeiA6MC9_/w1200",
+                            "size": "full",
+                            "aspectMode": "cover",
+                            "aspectRatio": "2:3",
+                            "gravity": "top"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "‘หุ้น-น้ำมัน-ทองคำ’ขึ้นแรง ดาวโจนส์พุ่งทุบสถิติ น้ำมันสูงสุดรอบ 1 ปี",
+                                            "size": "md",
+                                            "color": "#ffffff",
+                                            "weight": "bold",
+                                            "wrap": true
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents": [
+                                        {
+                                            "type": "filler"
+                                        },
+                                        {
+                                            "type": "box",
+                                            "layout": "baseline",
+                                            "contents": [
+                                                {
+                                                    "type": "filler"
+                                                },
+                                                {
+                                                    "type": "text",
+                                                    "text": "more",
+                                                    "color": "#ffffff",
+                                                    "flex": 0,
+                                                    "offsetTop": "-2px"
+                                                },
+                                                {
+                                                    "type": "filler"
+                                                }
+                                            ],
+                                            "spacing": "sm"
+                                        },
+                                        {
+                                            "type": "filler"
+                                        }
+                                    ],
+                                    "borderWidth": "1px",
+                                    "cornerRadius": "sm",
+                                    "spacing": "sm",
+                                    "borderColor": "#ffffff",
+                                    "margin": "xxl",
+                                    "height": "40px",
+                                    "action": {
+                                        "type": "uri",
+                                        "label": "action",
+                                        "uri": "http://linecorp.com/"
+                                    }
+                                }
+                            ],
+                            "position": "absolute",
+                            "offsetBottom": "0px",
+                            "offsetStart": "0px",
+                            "offsetEnd": "0px",
+                            "backgroundColor": "#9C8E7Ecc",
+                            "paddingAll": "20px",
+                            "paddingTop": "18px"
+                        }
+                    ],
+                    "paddingAll": "0px"
                 }
             }
-        
-            listflex.append(dict1)
-        return listflex
+        ]
+    })
 
-    dictout = {"type": "carousel", "contents": content(listitems)}
-    return str(dictout)
-# <---------------------------------------------------------> #
-@app.get("/flex-news-all-v2-test", response_class = PlainTextResponse)
-def flex_news_all_v2_test():
-    return str({
-  "type": "carousel",
-  "contents": [
-    {
-      "type": "bubble",
-      "body": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "image",
-            "url": "https://scdn.line-apps.com/n/channel_devcenter/img/flexsnapshot/clip/clip1.jpg",
-            "size": "full",
-            "aspectMode": "cover",
-            "aspectRatio": "2:3",
-            "gravity": "top"
-          },
-          {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-              {
-                "type": "box",
-                "layout": "vertical",
-                "contents": [
-                  {
-                    "type": "text",
-                    "text": "POLAR ค้านคำวินิจฉัยตลท. ยันหุ้นไม่เข้าข่ายเพิกถอน จ่อยื่นอุทธรณ์สู้!",
-                    "size": "md",
-                    "color": "#ffffff",
-                    "weight": "bold",
-                    "wrap": true
-                  }
-                ]
-              },
-              {
-                "type": "box",
-                "layout": "vertical",
-                "contents": [
-                  {
-                    "type": "filler"
-                  },
-                  {
-                    "type": "box",
-                    "layout": "baseline",
-                    "contents": [
-                      {
-                        "type": "filler"
-                      },
-                      {
-                        "type": "text",
-                        "text": "more",
-                        "color": "#ffffff",
-                        "flex": 0,
-                        "offsetTop": "-2px"
-                      },
-                      {
-                        "type": "filler"
-                      }
-                    ],
-                    "spacing": "sm"
-                  },
-                  {
-                    "type": "filler"
-                  }
-                ],
-                "borderWidth": "1px",
-                "cornerRadius": "sm",
-                "spacing": "sm",
-                "borderColor": "#ffffff",
-                "margin": "xxl",
-                "height": "40px"
-              }
-            ],
-            "position": "absolute",
-            "offsetBottom": "0px",
-            "offsetStart": "0px",
-            "offsetEnd": "0px",
-            "backgroundColor": "#03303Acc",
-            "paddingAll": "20px",
-            "paddingTop": "18px"
-          }
-        ],
-        "paddingAll": "0px"
-      }
-    },
-    {
-      "type": "bubble",
-      "body": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "image",
-            "url": "https://obs.line-scdn.net/0hlB77bUb_M20KTiUr52tMOjAYMAI5IiBubnhiblYgbVomfXRvNy5_Wykbag0lKXQzZH14CShHKFxyeiA6MC9_/w1200",
-            "size": "full",
-            "aspectMode": "cover",
-            "aspectRatio": "2:3",
-            "gravity": "top"
-          },
-          {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-              {
-                "type": "box",
-                "layout": "vertical",
-                "contents": [
-                  {
-                    "type": "text",
-                    "text": "‘หุ้น-น้ำมัน-ทองคำ’ขึ้นแรง ดาวโจนส์พุ่งทุบสถิติ น้ำมันสูงสุดรอบ 1 ปี",
-                    "size": "md",
-                    "color": "#ffffff",
-                    "weight": "bold",
-                    "wrap": true
-                  }
-                ]
-              },
-              {
-                "type": "box",
-                "layout": "vertical",
-                "contents": [
-                  {
-                    "type": "filler"
-                  },
-                  {
-                    "type": "box",
-                    "layout": "baseline",
-                    "contents": [
-                      {
-                        "type": "filler"
-                      },
-                      {
-                        "type": "text",
-                        "text": "more",
-                        "color": "#ffffff",
-                        "flex": 0,
-                        "offsetTop": "-2px"
-                      },
-                      {
-                        "type": "filler"
-                      }
-                    ],
-                    "spacing": "sm"
-                  },
-                  {
-                    "type": "filler"
-                  }
-                ],
-                "borderWidth": "1px",
-                "cornerRadius": "sm",
-                "spacing": "sm",
-                "borderColor": "#ffffff",
-                "margin": "xxl",
-                "height": "40px",
-                "action": {
-                  "type": "uri",
-                  "label": "action",
-                  "uri": "http://linecorp.com/"
-                }
-              }
-            ],
-            "position": "absolute",
-            "offsetBottom": "0px",
-            "offsetStart": "0px",
-            "offsetEnd": "0px",
-            "backgroundColor": "#9C8E7Ecc",
-            "paddingAll": "20px",
-            "paddingTop": "18px"
-          }
-        ],
-        "paddingAll": "0px"
-      }
-    }
-  ]
-})
 
 if __name__ == '__main__':
-   uvicorn.run(app, host="0.0.0.0", port=8080, debug=True) 
+    uvicorn.run(app, host="0.0.0.0", port=8080, debug=True)
