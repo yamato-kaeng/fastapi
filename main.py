@@ -718,7 +718,7 @@ def flex_news_all_v2():
                                     "spacing": "sm",
                                     "borderColor": "#ffffff",
                                     "margin": "xxl",
-                                    "height": "40px"
+                                    "height": "40px",
                                     "action": {
                                         "type": "uri",
                                         "label": "action",
