@@ -863,7 +863,7 @@ def flex_news_all_v2_test():
                                             "size": "md",
                                             "color": "#ffffff",
                                             "weight": "bold",
-                                            "wrap": true
+                                            "wrap": True
                                         }
                                     ]
                                 },
