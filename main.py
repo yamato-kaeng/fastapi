@@ -636,7 +636,7 @@ def flex_news_all_v1(lim: int = 20):
 @app.get("/flex-news-all-v2", response_class=PlainTextResponse)
 def flex_news_all_v2():
     import requests
-    res = requests.get('https://abdul.in.th/v24/yamato/news-all?lim=3')
+    res = requests.get('https://abdul.in.th/v24/yamato/news-all?lim=10')
     if str(res) != '<Response [200]>': return 'ERROR > https://abdul.in.th/v24/yamato/news-all'
 
     listitems = []
@@ -674,8 +674,8 @@ def flex_news_all_v2():
                                             "text": str(a['title']),
                                             "size": "md",
                                             "color": "#ffffff",
-                                            "weight": "bold",
-                                            "wrap": True
+                                            "weight": "bold"
+                                            #"wrap": True
                                         }
                                     ]
                                 },
