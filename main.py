@@ -613,7 +613,7 @@ def covid_api():
     #stringout = 'ติดเชื้อรายใหม่ > '+str(jj['NewConfirmed'])+'<br>'+'อัพเดทข้อมูลล่าสุด > '+str(jj['UpdateDate'])+'<br>'+'ติดเชื้อสะสม > '+str(
     #    jj['Confirmed'])+'<br>'+'หายแล้ว > '+str(jj['Recovered'])+'<br>'+'รักษาอยู่ใน รพ. > '+str(jj['Hospitalized'])
 
-    return jjout
+    return str(jjout)
 # <---------------------------------------------------------> #
 
 
