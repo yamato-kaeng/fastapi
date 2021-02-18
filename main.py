@@ -656,7 +656,12 @@ def covid_api():
                 "paddingTop": "18px"
             }
             ],
-            "paddingAll": "0px"
+            "paddingAll": "0px",
+            "action": {
+                "type": "uri",
+                "label": "action",
+                "uri": "https://covid19.th-stat.com/"
+            }
         }
     }
 
