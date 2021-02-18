@@ -483,121 +483,170 @@ def covid_api():
     y = int(dd.split()[0].split('/')[-1])
     m = int(dd.split()[0].split('/')[1])
     d = int(dd.split()[0].split('/')[0])
-    days = "--"+str(datetime.datetime(y, m, d).strftime("%a"))+dd+"--"
+    days = "-- "+str(datetime.datetime(y, m, d).strftime("%a"))+" "+dd+" --"
 
     jjout = {
         "type": "bubble",
         "body": {
             "type": "box",
             "layout": "vertical",
-            "contents": [{
+            "contents": [
+            {
                 "type": "image",
                 "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnOjK39ZKttYRVkSB9nvpjKE2r5uOGSiII2w&usqp=CAU",
                 "size": "full",
                 "aspectMode": "cover",
                 "aspectRatio": "3:4",
                 "gravity": "top"
-            },{
+            },
+            {
                 "type": "box",
                 "layout": "vertical",
-                "contents": [{
+                "contents": [
+                {
                     "type": "box",
                     "layout": "horizontal",
-                    "contents": [{
+                    "contents": [
+                    {
                         "type": "box",
                         "layout": "vertical",
-                        "contents": [{
+                        "contents": [
+                        {
                             "type": "text",
                             "text": days,
                             "size": "lg",
                             "color": "#ffffff"
-                        }],
-                        "alignItems": "center"}]
-                },{
+                        }
+                        ],
+                        "alignItems": "center"
+                    }
+                    ]
+                },
+                {
                     "type": "box",
                     "layout": "horizontal",
-                    "contents": [{
+                    "contents": [
+                    {
                         "type": "box",
                         "layout": "vertical",
-                        "contents": [{
+                        "contents": [
+                        {
                             "type": "text",
                             "text": "ติดเชื้อรายใหม่ :",
                             "color": "#ffffff",
-                            "size": "md"}]
-                    },{
+                            "size": "md"
+                        }
+                        ]
+                    },
+                    {
                         "type": "box",
                         "layout": "vertical",
-                        "contents": [{
+                        "contents": [
+                        {
                             "type": "text",
                             "text": str(jj['NewConfirmed']),
                             "color": "#ffffff",
-                            "size": "md"}]
-                    }],
+                            "size": "md"
+                        }
+                        ]
+                    }
+                    ],
                     "margin": "md"
-                },{
+                },
+                {
                     "type": "box",
                     "layout": "horizontal",
-                    "contents": [{
+                    "contents": [
+                    {
                         "type": "box",
                         "layout": "vertical",
-                        "contents": [{
+                        "contents": [
+                        {
                             "type": "text",
                             "text": "ติดเชื้อสะสม :",
                             "size": "md",
-                            "color": "#ffffff"}]
-                    },{
+                            "color": "#ffffff"
+                        }
+                        ]
+                    },
+                    {
                         "type": "box",
                         "layout": "vertical",
-                        "contents": [{
+                        "contents": [
+                        {
                             "type": "text",
                             "text": str(jj['Confirmed']),
                             "size": "md",
-                            "color": "#ffffff"}]
-                    }],
+                            "color": "#ffffff"
+                        }
+                        ]
+                    }
+                    ],
                     "margin": "md"
-                },{
+                },
+                {
                     "type": "box",
                     "layout": "horizontal",
-                    "contents": [{
+                    "contents": [
+                    {
                         "type": "box",
                         "layout": "vertical",
-                        "contents": [{
+                        "contents": [
+                        {
                             "type": "text",
                             "text": "หายแล้ว :",
                             "size": "md",
-                            "color": "#ffffff"}]
-                    },{
+                            "color": "#ffffff"
+                        }
+                        ]
+                    },
+                    {
                         "type": "box",
                         "layout": "vertical",
-                        "contents": [{
+                        "contents": [
+                        {
                             "type": "text",
                             "text": str(jj['Recovered']),
                             "size": "md",
-                            "color": "#ffffff"}]
-                    }],
+                            "color": "#ffffff"
+                        }
+                        ]
+                    }
+                    ],
                     "margin": "md"
-                },{
+                },
+                {
                     "type": "box",
                     "layout": "horizontal",
-                    "contents": [{
+                    "contents": [
+                    {
                         "type": "box",
                         "layout": "vertical",
-                        "contents": [{
+                        "contents": [
+                        {
                             "type": "text",
                             "text": "รักษาอยู่ใน รพ. :",
                             "size": "md",
-                            "color": "#ffffff"}]
-                    },{
+                            "color": "#ffffff"
+                        }
+                        ]
+                    },
+                    {
                         "type": "box",
                         "layout": "vertical",
-                        "contents": [{
+                        "contents": [
+                        {
                             "type": "text",
                             "text": str(jj['Hospitalized']),
                             "size": "md",
-                            "color": "#ffffff"}]
-                    }],
+                            "color": "#ffffff"
+                        }
+                        ]
+                    }
+                    ],
                     "margin": "md"
-                }],
+                }
+                ],
                 "position": "absolute",
                 "offsetBottom": "0px",
                 "offsetStart": "0px",
@@ -605,7 +654,8 @@ def covid_api():
                 "backgroundColor": "#03303Acc",
                 "paddingAll": "20px",
                 "paddingTop": "18px"
-            }],
+            }
+            ],
             "paddingAll": "0px"
         }
     }
